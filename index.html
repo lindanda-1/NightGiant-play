@@ -1,0 +1,2633 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#0b1326"><title>夜巨人 · 觉醒 V7.0</title><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#0b1326;color:white;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;touch-action:none}canvas{display:block}#hud{position:absolute;top:0;left:0;right:0;padding:17px 18px;background:linear-gradient(#09152abb,transparent);pointer-events:none}h1{font-size:19px;margin:0 0 5px}#tip{font-size:13px;color:#b9dcff;max-width:85%}#progress{margin-top:8px;font-size:14px;color:#84f3ff}#joy{position:absolute;bottom:32px;left:26px;width:125px;height:125px;border-radius:50%;border:2px solid #87c7ff66;background:#5578aa22;touch-action:none}#nub{position:absolute;width:54px;height:54px;border-radius:50%;background:#81dbff99;left:34px;top:34px;box-shadow:0 0 15px #17baff55}#puzzle{display:none;position:absolute;z-index:15;top:50%;left:50%;transform:translate(-50%,-50%);width:min(88vw,410px);padding:22px;background:#10213df2;border:1px solid #61e6ff;border-radius:18px;box-shadow:0 10px 80px #0009;text-align:center}#puzzle h2{margin:0 0 12px;font-size:20px}#puzzle p{line-height:1.5;font-size:15px;color:#dcf5ff}.choices{display:flex;gap:9px;justify-content:center}.choices button{min-width:70px;padding:13px 8px;background:#174e72;border:1px solid #55d9ee;border-radius:10px;color:white;font-size:19px}#puzzle-result{margin-top:14px;min-height:24px;color:#8ffde4}#notice{position:absolute;top:34%;left:50%;transform:translateX(-50%);background:#091728dc;padding:12px 20px;border:1px solid #4fe5ff;border-radius:14px;max-width:85%;text-align:center;display:none}#restart{position:absolute;right:15px;top:15px;border:1px solid #779bb7;color:white;border-radius:8px;background:#152f52;padding:6px 10px;font-size:12px}#foot{position:absolute;bottom:8px;right:12px;color:#bfd5ea;font-size:10px;opacity:.8;pointer-events:none}#skills{position:absolute;right:12px;bottom:16px;display:flex;gap:7px;z-index:10}#skills button{width:65px;height:66px;border:1px solid #68dfff;border-radius:15px;color:#fff;background:#102d52d9;font-size:11px;font-weight:700;touch-action:manipulation}#skills button b{display:block;font-size:23px}#skills button:disabled{opacity:.5}#joy{bottom:24px;left:14px;width:112px;height:112px}#nub{left:28px;top:28px}#skill-status{position:absolute;bottom:160px;right:12px;color:#9ef9ff;font-size:12px;text-shadow:0 1px 4px #000;z-index:10}#inspect-hero{position:absolute;top:99px;right:15px;border:1px solid #779bb7;color:white;border-radius:8px;background:#142b4dde;padding:6px 10px;font-size:12px;touch-action:manipulation}#hud #tip{max-width:calc(100% - 78px)}@media(max-width:600px){#hud #tip{max-width:calc(100% - 135px)}}#turn-mirror{position:absolute;right:13px;bottom:max(27px,env(safe-area-inset-bottom));width:clamp(174px,55vw,310px);padding:10px 13px;color:#e9fdff;background:#0a2339ed;border:1px solid #72dcff;border-radius:13px;z-index:12}#turn-mirror[hidden],.choices button[hidden]{display:none}#story{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:18px;background:#030811e8}#story[hidden],#orbit-tools[hidden]{display:none}.story-card{width:min(94vw,480px);max-height:96dvh;overflow:auto;border:1px solid #709fcc;border-radius:18px;background:#122039;box-shadow:0 12px 48px #0009;animation:story-enter .45s ease both}.story-art{overflow:hidden;max-height:58vh;aspect-ratio:1.16;background:#172743}.story-art img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 42%;animation:story-pan 8s ease-out both}.story-caption{padding:16px 18px 18px}.story-caption h2{margin:0 0 7px;color:#fff0c8;font-size:21px}.story-caption p{margin:0 0 14px;color:#dfeeff;line-height:1.5;font-size:15px}.story-caption button,#orbit-tools button{color:#eafaff;border:1px solid #7cc8ee;background:#173e5b;border-radius:9px;padding:8px 11px;min-height:36px;font:inherit}.story-caption button{min-height:43px;font-weight:700}.story-caption button:focus-visible,#orbit-tools button:focus-visible{outline:2px solid #ffdb95;outline-offset:2px}@keyframes story-enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes story-pan{from{transform:scale(1.015)}to{transform:scale(1.095)}}@media (prefers-reduced-motion:reduce){.story-art img,.story-card{animation:none}}#orbit-tools{z-index:13;position:absolute;top:55px;right:14px;display:flex;gap:4px}#orbit-tools button{min-width:38px;touch-action:manipulation}#orbit-tools button:last-child{font-size:12px}#mirror-slider{display:block;width:100%;height:38px;margin:3px 0 0;accent-color:#71e7ff;touch-action:none}#mirror-slider:focus-visible{outline:2px solid #ffdb95}#mirror-angle{float:right;color:#abedff;font-size:13px}#mirror-slider-name{font-size:14px;font-weight:700}#mirror-help{margin:0;color:#b5cde3;font-size:11px}#audio-tools{position:absolute;right:14px;bottom:max(11px,env(safe-area-inset-bottom));display:flex;gap:5px;z-index:13}#audio-tools button{font-size:11px;padding:5px 8px;min-height:28px;border:1px solid #6c92b4;border-radius:7px;color:#dff8ff;background:#122740f0;touch-action:manipulation}#audio-tools button[aria-pressed=false]{color:#aab9c9}#skills{bottom:51px}#skill-status{bottom:124px}#turn-mirror{bottom:max(54px,calc(env(safe-area-inset-bottom) + 45px))}#foot{left:15px;right:auto;bottom:8px}#encounter{position:fixed;inset:0;z-index:25;display:grid;place-items:center;background:#030916d6;padding:17px}#encounter[hidden]{display:none}.encounter-card{width:min(430px,91vw);background:#16253c;border:1px solid #ba986a;border-radius:18px;padding:22px;text-align:center}.encounter-card h2{color:#ffe2a6;margin:0 0 12px}.encounter-card p{color:#d9ecff;line-height:1.5}.encounter-card button{background:#235271;color:white;font-size:15px;font-weight:700;border:1px solid #89cbe1;border-radius:9px;padding:10px 17px}#hearts{display:flex;gap:4px;margin:5px 0}#hearts i{display:block;width:23px;height:8px;border-radius:3px;background:linear-gradient(#ffb492,#e85454);border:1px solid #ffd5b9}#hearts i.empty{background:#302932;border-color:#766475}#pair{display:block;pointer-events:auto;background:#182635;color:#f8dda9;border:1px solid #73644d;border-radius:5px;padding:3px;margin-top:4px;max-width:100%}#pair[hidden]{display:none}#hud{pointer-events:auto}#depth-action{position:absolute;right:14px;bottom:max(52px,calc(env(safe-area-inset-bottom) + 42px));z-index:14;min-height:44px;padding:9px 15px;border:1px solid #ffcf84;border-radius:12px;color:#fff3d9;background:#31233cf0;font:inherit;font-weight:700;touch-action:manipulation}#encounter-continue{margin:4px}#encounter-continue:not([hidden]){display:inline-block}</style></head><body><div id="hud"><h1>夜巨人：觉醒 V7.0</h1><div id="tip">救出驿风。把木箱推到同色符文台，橙箱需绕过石柱。</div><div id="hearts" role="meter" aria-label="生命" aria-valuemin="0" aria-valuemax="5" aria-valuenow="5"><i id="hp0"></i><i id="hp1"></i><i id="hp2"></i><i id="hp3"></i><i id="hp4"></i></div><div id="progress">能量机关：0 / 3</div><select aria-label="选择对手，重新挑战第四关" id="pair" hidden><option value="0">棘冠巡瞳 · 紫幕翼魇</option><option value="1">四瞳星葵 · 十字镰骸</option><option value="2">三星刃蛛 · 灯颚长骸</option></select></div><button id="restart">重新开始</button><div id="joy"><div id="nub"></div></div><div id="turn-mirror" hidden><output id="mirror-angle" for="mirror-slider">0°</output><label id="mirror-slider-name" for="mirror-slider">滑动转镜</label><input id="mirror-slider" type="range" min="0" max="180" step="1" value="0" aria-describedby="mirror-help"><p id="mirror-help">拖动滑杆，观察光束方向</p></div><div id="audio-tools" aria-label="声音设置"><button id="audio-music" type="button">音乐 开</button><button id="audio-fx" type="button">音效 开</button></div><button id="depth-action" type="button" hidden>操作机关</button><div id="orbit-tools" aria-label="自由视角" hidden><button id="orbit-in" type="button" aria-label="拉近视角">＋</button><button id="orbit-out" type="button" aria-label="拉远视角">－</button><button id="orbit-reset" type="button">全景</button></div><div id="story" role="dialog" aria-modal="true" aria-labelledby="story-title" hidden><article class="story-card"><div class="story-art"><img id="story-image" alt="" decoding="async"></div><div class="story-caption"><h2 id="story-title"></h2><p id="story-text"></p><button id="story-next" type="button">继续</button></div></article></div><div id="encounter" role="dialog" aria-modal="true" aria-labelledby="encounter-title" hidden><section class="encounter-card"><h2 id="encounter-title"></h2><p id="encounter-text"></p><button id="encounter-continue" type="button" hidden>继续前进</button><button id="encounter-button" type="button">重试第四关</button></section></div><div id="notice"></div><div id="puzzle"><h2 id="puzzle-title">第二关 · 光之迷宫</h2><p id="puzzle-desc">旋转两面魔镜，把光束从起点引到水晶。每次旋转90°。</p><div id="puzzle-board" style="font-size:30px;line-height:1.8;white-space:pre;font-family:monospace;color:#73f4ff">🔵 → 🪞<br>　　 ↓<br>💎 ← 🪞</div><div class="choices"><button id="mirror-a">转动镜①</button><button id="mirror-b">转动镜②</button></div><div id="puzzle-result"></div></div><div id="skills"><button id="flameSkill"><b>🔥</b>暗焰冲击</button><button id="shieldSkill"><b>🛡️</b>石甲防御</button><button id="slamSkill"><b>💥</b>震地重击</button></div><div id="skill-status"></div><div id="foot">V7.0 · 遗迹守卫</div><script src="three.min.js"></script><script src="gltf-loader.js"></script><script src="night-giant-data.js"></script><script src="night-giant-depths.js"></script><script>
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x0b1428);scene.fog=new THREE.Fog(0x0b1428,22,51);
+const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,115);
+function makeRenderer() {
+  try {
+    return new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
+  } catch (error) {
+    const message = document.getElementById('notice');
+    message.textContent = '浏览器未能开启 WebGL。请用支持硬件加速的浏览器打开游戏。';
+    message.style.display = 'block';
+    throw error;
+  }
+}
+const renderer=makeRenderer();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;document.body.prepend(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xc7deff,0x344257,1.48));const sun=new THREE.DirectionalLight(0xffe5cc,1.7);sun.position.set(-3,11,7);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);scene.add(sun);
+const mat=(c,metal=0)=>new THREE.MeshStandardMaterial({color:c,metalness:metal,roughness:.48});const ground=mat(0x202d44);
+function mesh(g,m,parent,x=0,y=0,z=0){let o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o}function box(w,h,d,m,p,x,y,z){return mesh(new THREE.BoxGeometry(w,h,d),m,p,x,y,z)}
+const ruins = new THREE.Group();
+scene.add(ruins);
+const basalt = mat(0x1a2131,.06);
+const chippedStone = mat(0x34394a,.09);
+const slate = mat(0x282c3a,.12);
+const obsidian = mat(0x100e18,.14);
+const runeInk = new THREE.MeshBasicMaterial({color:0x43aaff, toneMapped:false});
+const lava = new THREE.MeshBasicMaterial({color:0xfe4e12, toneMapped:false});
+const lavaEdge = new THREE.MeshBasicMaterial({color:0xffab3a, toneMapped:false});
+const crystalStone = new THREE.MeshStandardMaterial({
+  color:0x276bd2, emissive:0x164dcc, emissiveIntensity:.68, roughness:.26, metalness:.25
+});
+let ruinSeed=27691;
+function ruinRandom() {
+  ruinSeed = (Math.imul(ruinSeed, 1664525) + 1013904223) >>> 0;
+  return ruinSeed / 4294967296;
+}
+function slab(w,h,d,m,x,y,z) {
+  const piece = box(w,h,d,m,ruins,x,y,z);
+  piece.castShadow = false;
+  return piece;
+}
+function ore(geometry, material, x,y,z) {
+  const object = new THREE.Mesh(geometry,material);
+  object.position.set(x,y,z);
+  ruins.add(object);
+  return object;
+}
+function lineOnStone(x1,z1,x2,z2,y,width,material) {
+  const dx=x2-x1, dz=z2-z1;
+  const segment=slab(width,.012,Math.hypot(dx,dz),material,(x1+x2)/2,y,(z1+z2)/2);
+  segment.rotation.y=Math.atan2(dx,dz);
+  return segment;
+}
+function floorTiles() {
+  const tiles = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(1.93,.105,1.93), mat(0xffffff,.08), 130
+  );
+  const sample = new THREE.Object3D();
+  const tint = new THREE.Color();
+  let index=0;
+  for(let i=0;i<10;i++)for(let j=0;j<13;j++){
+    const x=-9+i*2, z=-15+j*2;
+    sample.position.set(x,-.048,z);
+    sample.rotation.y=(ruinRandom()-.5)*.028;
+    sample.updateMatrix();
+    tiles.setMatrixAt(index,sample.matrix);
+    const tintHex = Math.abs(x)<2 ? 0x303b4b : 0x232a37;
+    tiles.setColorAt(index++,tint.setHex(tintHex).multiplyScalar(.71+ruinRandom()*.46));
+  }
+  tiles.receiveShadow=true;
+  ruins.add(tiles);
+}
+function column(x,z,height,lean) {
+  slab(1.04,.27,1.08,obsidian,x,.135,z);
+  slab(.86,.21,.87,chippedStone,x,.36,z);
+  const shaft = ore(new THREE.CylinderGeometry(.31,.43,height,7),basalt,x,.47+height/2,z);
+  shaft.rotation.z=lean;
+  slab(.78,.17,.76,slate,x-lean*height/2,height+.52,z);
+  const strip=slab(.085,height*.57,.022,runeInk,x,.55+height*.34,z+.37);
+  strip.rotation.z=lean;
+  for(let i=0;i<3;i++){
+    const stone=ore(new THREE.DodecahedronGeometry(.19+ruinRandom()*.16,0),chippedStone,
+      x+(ruinRandom()-.5)*1.25,.13,z+(ruinRandom()-.5)*1.27);
+    stone.rotation.set(ruinRandom()*3,ruinRandom()*3,ruinRandom()*3);
+  }
+}
+function crystals(x,z) {
+  slab(.88,.2,.84,obsidian,x,.1,z);
+  for(let i=0;i<5;i++) {
+    const height=.46+ruinRandom()*.85;
+    const tip=ore(new THREE.ConeGeometry(.13+ruinRandom()*.16,height,5),crystalStone,
+       x+(ruinRandom()-.5)*.7,height*.47+.07,z+(ruinRandom()-.5)*.65);
+    tip.rotation.z=(ruinRandom()-.5)*.72;
+    tip.rotation.x=(ruinRandom()-.5)*.54;
+  }
+}
+function lavaBank(side) {
+  const x = side*10.4;
+  slab(1.08,.055,27,lava,x,-.12,-3);
+  slab(.045,.075,27,lavaEdge,side*9.95,-.075,-3);
+  for(let i=0;i<17;i++){
+    const z=-15.8+i*1.58;
+    const offset=(ruinRandom()-.5)*.46;
+    lineOnStone(x+offset,z,x-offset,z+.67,-.073,.042,lavaEdge);
+  }
+  for(let i=0;i<12;i++){
+    const z=-15+i*2.19;
+    const h = .32 + ruinRandom()*.34;
+    slab(.48,h,1.75,basalt,side*9.53,h*.5,z).rotation.y=(ruinRandom()-.5)*.19;
+  }
+}
+function moonAndEmbers() {
+  const sky = new THREE.Group();
+  scene.add(sky);
+  const moon = new THREE.Mesh(new THREE.SphereGeometry(2.65,28,18),
+      new THREE.MeshBasicMaterial({ color:0x91b9ff, fog:false, toneMapped:false }));
+  moon.position.set(-12,13,-39);
+  sky.add(moon);
+  const mountains = new THREE.MeshBasicMaterial({color:0x151a2c, fog:false});
+  for(let i=0;i<14;i++){
+    const h=5+ruinRandom()*11;
+    const peak=new THREE.Mesh(new THREE.ConeGeometry(3+ruinRandom()*4,h,4),mountains);
+    peak.position.set(-41+i*6.3,h/2-3,-28-ruinRandom()*19);
+    peak.rotation.y=ruinRandom()*2;
+    sky.add(peak);
+  }
+  const positions = new Float32Array(210*3);
+  const colors = new Float32Array(210*3);
+  const star = new THREE.Color();
+  for(let i=0;i<210;i++){
+    const j=i*3;
+    const ember=i<42;
+    positions[j] = ember ? (i%2 ? -1 : 1)*(9.75+ruinRandom()*.85) : (ruinRandom()-.5)*106;
+    positions[j+1] = ember ? ruinRandom()*3.05 : 8+ruinRandom()*40;
+    positions[j+2] = ember ? -16+ruinRandom()*27 : -33-ruinRandom()*23;
+    star.setHex(ember?0xff781e:0x9cbeff).multiplyScalar(.47+ruinRandom()*.53);
+    star.toArray(colors,j);
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));
+  geometry.setAttribute('color',new THREE.BufferAttribute(colors,3));
+  const points = new THREE.Points(geometry,new THREE.PointsMaterial({
+    size:.082, vertexColors:true, fog:false, transparent:true,opacity:.85,depthWrite:false
+  }));
+  sky.add(points);
+}
+slab(21.9,.24,28,ground,0,-.177,-3.3);
+floorTiles();
+for(const side of [-1,1]){
+  lavaBank(side);
+  for(const [i,z] of [-13.2,-6.4,.6,6.4].entries()){
+    column(side*9.7,z,[4.7,3.15,4.1,2.4][i],side*(i%2?.10:-.025));
+    crystals(side*9.35,z+1.3);
+  }
+}
+for(const x of [-7.6,-4.8,4.8,7.6]){
+  column(x,-16.15,3.1+ruinRandom()*2.7,(ruinRandom()-.5)*.1);
+  slab(2.05,1.15+ruinRandom(),.58,basalt,x, .75,-16.64);
+}
+for(const x of [-7.55,-2.55,2.55,7.55]){
+  for(let z=-13;z<=7;z+=4){
+    lineOnStone(x,z,x-.28,z+.38,.013,.034,runeInk);
+    lineOnStone(x-.28,z+.38,x,z+.76,.013,.034,runeInk);
+    lineOnStone(x,z+.76,x+.28,z+.38,.013,.034,runeInk);
+    lineOnStone(x+.28,z+.38,x,z,.013,.034,runeInk);
+  }
+}
+const door=box(3.3,3.25,.33,mat(0x302530,.4),scene,0,1.63,-15.79);
+let doorOpen=false;
+const frame=mat(0x474b61,.28);
+for(const side of [-1,1]){
+  slab(.63,3.65,.86,frame,side*1.94,1.825,-15.86);
+  slab(.11,2.61,.045,runeInk,side*1.94,1.55,-15.401);
+  slab(.95,.28,1.03,slate,side*1.94,.14,-15.81);
+}
+for(let i=0;i<9;i++){
+  const angle=i*Math.PI/8;
+  const segment=slab(.62,.34,.76,i===4?chippedStone:frame,Math.cos(angle)*1.91,
+    3.53+Math.sin(angle)*1.91,-15.83);
+  segment.rotation.z=angle-Math.PI/2;
+}
+const crest=ore(new THREE.OctahedronGeometry(.42),crystalStone,0,5.84,-15.78);
+crest.rotation.z=Math.PI/4;
+moonAndEmbers();
+
+// Merge decorative geometry by material to keep draw calls low on mobile.
+function mergeByMaterial(group, receiveShadow, castShadow) {
+  const byMaterial = new Map();
+  for(const object of group.children) {
+    if(!object.isMesh || object.isInstancedMesh) continue;
+    const material = object.material;
+    if(!byMaterial.has(material)) byMaterial.set(material, []);
+    byMaterial.get(material).push(object);
+  }
+  for(const [material, objects] of byMaterial) {
+    if(objects.length < 2) continue;
+    const pieces = objects.map(object => {
+      object.updateMatrix();
+      const geometry = object.geometry.index ? object.geometry.toNonIndexed() : object.geometry.clone();
+      return geometry.applyMatrix4(object.matrix);
+    });
+    const merged = window.NightGiantGeometry.mergeGeometries(pieces);
+    for(const geometry of pieces) geometry.dispose();
+    if(!merged) continue;
+    for(const object of objects) {
+      object.geometry.dispose();
+      group.remove(object);
+    }
+    const batch = new THREE.Mesh(merged, material);
+    batch.receiveShadow = receiveShadow;
+    batch.castShadow = castShadow;
+    group.add(batch);
+  }
+}
+// The broken pillar blocks the orange lane while leaving both sides open.
+const fallenPillar = {x:5, z:-5.15, halfX:.86, halfZ:1.12};
+const {x:pillarX,z:pillarZ,halfX:pillarHalfX,halfZ:pillarHalfZ}=fallenPillar;
+slab(pillarHalfX*2,.32,pillarHalfZ*2,obsidian,pillarX,.16,pillarZ);
+slab(1.51,.22,2.0,chippedStone,pillarX,.40,pillarZ);
+const brokenShaft=ore(new THREE.CylinderGeometry(.52,.66,1.40,7),basalt,pillarX,1.19,pillarZ-.20);
+brokenShaft.rotation.z=-.13;
+const brokenCap=ore(new THREE.DodecahedronGeometry(.42,0),slate,pillarX+.29,.73,pillarZ+.56);
+brokenCap.rotation.set(.73,.26,.42);
+const amberRune=new THREE.MeshBasicMaterial({color:0xe9a566,toneMapped:false});
+for(const x of [pillarX-.51,pillarX,pillarX+.51]){
+  lineOnStone(x-.12,pillarZ+.86,x+.12,pillarZ+.86,.518,.064,amberRune);
+}
+mergeByMaterial(ruins, true, false);
+const hero = new THREE.Group();
+hero.position.set(0, 0, 5.5);
+scene.add(hero);
+
+let mixer;
+let activeAction;
+let oneShot;
+const actions = {};
+let inspectSide = false;
+const inspect = document.createElement('button');
+inspect.id = 'inspect-hero';
+inspect.type = 'button';
+inspect.textContent = '看角色';
+inspect.setAttribute('aria-pressed','false');
+inspect.addEventListener('click', () => {
+  inspectSide = !inspectSide;
+  inspect.textContent = inspectSide ? '返回视角' : '看角色';
+  inspect.setAttribute('aria-pressed',String(inspectSide));
+  resetOrbit();
+});
+document.body.append(inspect);
+const loading = document.createElement('div');
+loading.textContent = '正在载入夜巨人…';
+loading.setAttribute('role', 'status');
+Object.assign(loading.style, {
+  position: 'absolute', top: '42%', left: '50%', transform: 'translateX(-50%)',
+  padding: '12px 16px', borderRadius: '10px', background: '#10213d', width: 'max-content',
+  maxWidth: '85vw', zIndex: 20
+});
+document.body.append(loading);
+
+function playMotion(name, once = false) {
+  const next = actions[name];
+  if (!next || (!once && (oneShot || activeAction === next))) return;
+  const previous = activeAction;
+  if (previous && previous !== next) previous.fadeOut(0.13);
+  next.reset().setEffectiveWeight(1);
+  next.setLoop(once ? THREE.LoopOnce : name === 'Push' ? THREE.LoopPingPong : THREE.LoopRepeat, once ? 1 : Infinity);
+  next.setEffectiveTimeScale(name === 'Push' ? .72 : 1);
+  next.clampWhenFinished = once;
+  next.fadeIn(0.13).play();
+  activeAction = next;
+  oneShot = once ? next : null;
+}
+
+function loadHero() {
+  const bytes = Uint8Array.from(atob(window.nightGiantModel), char => char.charCodeAt(0));
+  delete window.nightGiantModel;
+  const loader = new window.NightGiantLoader.GLTFLoader();
+  loader.parse(bytes.buffer, '', ({ scene: model, animations }) => {
+    model.rotation.y = Math.PI;
+    model.scale.setScalar(1.13);
+    model.position.y = 0.015;
+    model.traverse(object => {
+      if (!object.isSkinnedMesh) return;
+      object.frustumCulled = false;
+      object.castShadow = true;
+      object.receiveShadow = false;
+      const material = object.material;
+      material.vertexColors = Boolean(object.geometry.getAttribute('color'));
+      material.color.set(0xffffff);
+      material.emissive.set(0x000000);
+      material.roughness = 0.92;
+      material.toneMapped = false;
+      material.onBeforeCompile = shader => {
+        shader.vertexShader='varying vec3 restStone;\n'+shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n restStone=position;');
+        shader.fragmentShader='varying vec3 restStone;\n'+shader.fragmentShader;
+        // Keep the reference-derived paint as the dominant color in every scene.
+        const patch = `#include <opaque_fragment>`;
+        shader.fragmentShader = shader.fragmentShader.replace(patch, `
+          vec3 paint = max(diffuseColor.rgb, vec3(0.0));
+          float blue = smoothstep(0.075, 0.27, paint.b - paint.r) *
+                       smoothstep(0.12, 0.33, paint.b) *
+                       smoothstep(0.025, 0.16, paint.g - paint.r);
+          float red = smoothstep(0.19, 0.54, paint.r - max(paint.g, paint.b));
+          float ivory = smoothstep(0.03, 0.23, paint.r - paint.b) *
+                        smoothstep(0.13, 0.40, paint.g) * (1.0 - red);
+          vec3 luma = vec3(dot(paint, vec3(0.2126, 0.7152, 0.0722)));
+          vec3 grade = max(mix(luma, paint, 1.20), vec3(0.002));
+          grade = pow(grade, vec3(1.22)) * vec3(0.89, 0.94, 1.13);
+          grade = mix(grade, paint * vec3(1.09, 0.89, 0.70), ivory * 0.74);
+          float grain = sin(dot(restStone,vec3(89.,53.,113.))) * sin(dot(restStone,vec3(47.,83.,37.)));
+          float vein = smoothstep(.91,.99,cos(36.*restStone.y+7.*sin(9.*restStone.x)+5.*sin(12.*restStone.z)));
+          grade *= (1.+.08*grain-.12*vein);
+          float falloff = 0.83 + 0.24 * max(normal.y, 0.0);
+          outgoingLight = grade * falloff + outgoingLight * 0.13;
+          outgoingLight = mix(outgoingLight, vec3(0.012, 0.27, 1.0), blue * 0.82);
+          outgoingLight = mix(outgoingLight, vec3(1.0, 0.032, 0.006), red * 0.91);
+          ${patch}
+        `);
+      };
+    });
+    hero.add(model);
+    mixer = new THREE.AnimationMixer(model);
+    for (const animation of animations) actions[animation.name] = mixer.clipAction(animation);
+    mixer.addEventListener('finished', event => {
+      if (event.action === oneShot) oneShot = null;
+    });
+    playMotion('Idle');
+    loading.remove();
+  }, error => {
+    console.error(error);
+    loading.textContent = '夜巨人模型载入失败。请完整解压游戏包，再打开 index.html。';
+  });
+}
+loadHero();
+
+const crateHalf = .59;
+const heroRadius = .79;
+const wallLimits = {x:8.8, zMin:-14.2, zMax:8.7};
+const crateMarks = [0x36b9ff, 0x48e1b2, 0xffb65a];
+
+function woodTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 256;
+  const ctx = canvas.getContext('2d');
+  const boards = ['#6b421f','#8b572d','#734525','#926036','#6d4322'];
+  for (let i=0;i<boards.length;i++) {
+    const y=i*52;
+    ctx.fillStyle=boards[i];
+    ctx.fillRect(0,y,256,52);
+    const grain=ctx.createLinearGradient(0,y,0,y+52);
+    grain.addColorStop(0,'#ffdb9f47');
+    grain.addColorStop(.38,'#ffb56709');
+    grain.addColorStop(1,'#28160875');
+    ctx.fillStyle=grain;
+    ctx.fillRect(0,y,256,52);
+    for (let n=0;n<34;n++) {
+      const x=ruinRandom()*256, gy=y+4+ruinRandom()*44;
+      ctx.strokeStyle=n%3===0?'#ffd49742':'#24130660';
+      ctx.lineWidth=ruinRandom()<.12?1.8:.75;
+      ctx.beginPath();
+      ctx.moveTo(x,gy);
+      ctx.quadraticCurveTo(x+30,gy-4+ruinRandom()*8,x+14+ruinRandom()*135,gy+1);
+      ctx.stroke();
+    }
+    ctx.strokeStyle='#36210e91';
+    ctx.lineWidth=1.6;
+    ctx.beginPath();
+    ctx.ellipse(35+i*43,y+23,13,4,-.07,0,Math.PI*2);
+    ctx.ellipse(37+i*43,y+23,7,2,-.07,0,Math.PI*2);
+    ctx.stroke();
+    ctx.fillStyle='#1e130b';
+    ctx.fillRect(0,y+49,256,3);
+  }
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace=THREE.SRGBColorSpace;
+  texture.anisotropy=4;
+  return texture;
+}
+
+const timber = new THREE.MeshStandardMaterial({map:woodTexture(),roughness:.9});
+const iron = new THREE.MeshStandardMaterial({color:0x687688,metalness:.62,roughness:.42});
+const rivet = new THREE.MeshStandardMaterial({color:0xaeb1ad,metalness:.45,roughness:.44});
+const plate = new THREE.MeshStandardMaterial({color:0x292a26,metalness:.43,roughness:.58});
+const pads = [];
+const crates = [];
+
+function makeCrate(index, x, z) {
+  const c = new THREE.Group();
+  scene.add(c);
+  c.position.set(x,0,z);
+  box(1.12,1.12,1.12,timber,c,0,.56,0);
+  for (const edgeX of [-.53,.53]) {
+    for (const edgeZ of [-.53,.53]) {
+      box(.118,1.15,.118,iron,c,edgeX,.575,edgeZ);
+      for (const y of [.12,1.01]) {
+        box(.115,.115,.167,rivet,c,edgeX,y,edgeZ);
+      }
+    }
+  }
+  for (const y of [.063,1.07]) {
+    for (const side of [-1,1]) {
+      box(1.16,.13,.09,iron,c,0,y,side*.543);
+      box(.09,.13,1.16,iron,c,side*.543,y,0);
+    }
+  }
+  const top = box(.14,.025,1.39,iron,c,0,1.137,0);
+  top.rotation.y=Math.PI/4;
+  const chip = new THREE.MeshBasicMaterial({color:crateMarks[index],toneMapped:false});
+  for (let face=0;face<4;face++) {
+    const badge = new THREE.Group();
+    badge.rotation.y=face*Math.PI/2;
+    c.add(badge);
+    box(.36,.39,.035,plate,badge,0,.57,.567);
+    for (let mark=0;mark<=index;mark++)
+      box(.045,.15,.02,chip,badge,(mark-index/2)*.087,.57,.594);
+  }
+  for (const child of c.children) {
+    if (child.isGroup) mergeByMaterial(child, true, false);
+  }
+  mergeByMaterial(c, true, true);
+  return c;
+}
+
+for (let index=0;index<3;index++) {
+  const x=(index-1)*5, z=-9;
+  const disk=mesh(new THREE.CylinderGeometry(.86,.86,.09,28),mat(0x273a42,.45),scene,x,.055,z);
+  const marker = new THREE.MeshBasicMaterial({color:crateMarks[index],toneMapped:false});
+  for (let mark=0;mark<=index;mark++){
+    box(.06,.023,.29,marker,scene,x+(mark-index/2)*.12,.112,z);
+  }
+  pads.push({x,z,marker,disk});
+  crates.push(makeCrate(index,x,-2+index*.25));
+}
+const rings=pads.map(p=>{
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(.78,.053,7,32),p.marker);
+  ring.position.set(p.x,.13,p.z);
+  ring.rotation.x=-Math.PI/2;
+  scene.add(ring);
+  return ring;
+});
+let solved=[false,false,false],finished=false;
+let stage=null;
+const tip=document.getElementById('tip'),progress=document.getElementById('progress'),notice=document.getElementById('notice');let toastTimer;function toast(s){notice.textContent=s;notice.style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>notice.style.display='none',2200)}
+const joy=document.getElementById('joy'),nub=document.getElementById('nub');
+let orbitYaw=0,orbitPitch=0,orbitDistance=0;
+const orbitPointers=new Map();
+const orbitTools=document.getElementById('orbit-tools');
+const viewSurface=renderer.domElement;
+const gravityLayout={halfWidth:10.6,centerZ:-62.4,depth:29,spawnZ:-49.8,gateZ:-76.5};
+const arena={x:8.36,minZ:-106.85,maxZ:-83.9,gateZ:-107.25,centerZ:-95.7,wallX:9.05,depth:24};
+const cameraViews={
+  1:{height:1.6,pitch:.39,distance:10.6,portraitFit:0,min:4,max:25},
+  2:{center:new THREE.Vector3(-.5,.35,-32.1),focusHeight:.35,pitch:1.13,distance:20.5,portraitFit:12.4,min:8.5,max:46},
+  3:{center:new THREE.Vector3(0,0,gravityLayout.centerZ),pitch:1.09,distance:23,portraitFit:16.5,min:6,max:48},
+  4:{center:new THREE.Vector3(0,0,arena.centerZ),pitch:1.03,distance:21,portraitFit:15,min:6,max:44},
+  5:{center:new THREE.Vector3(0,0,deepCenters[5]),pitch:1.18,distance:29,portraitFit:14,min:6,max:48},
+  6:{center:new THREE.Vector3(0,0,deepCenters[6]),pitch:1.22,distance:27,portraitFit:17,min:6,max:48},
+  7:{center:new THREE.Vector3(0,0,deepCenters[7]),pitch:1.11,distance:26.5,portraitFit:15,min:6,max:47}
+};
+function resetOrbit(){
+  const view=cameraViews[stage];
+  orbitYaw=inspectSide?hero.rotation.y+Math.PI-.31:0;
+  orbitPitch=inspectSide?.22:view.pitch;
+  orbitDistance=inspectSide?5.3:Math.max(view.distance,view.portraitFit/camera.aspect);
+}
+function zoomOrbit(factor){
+  const view=cameraViews[stage];
+  orbitDistance=THREE.MathUtils.clamp(orbitDistance*factor,view.min,Math.max(view.max,view.portraitFit/camera.aspect));
+}
+document.getElementById('orbit-in').addEventListener('click',()=>zoomOrbit(.84));
+document.getElementById('orbit-out').addEventListener('click',()=>zoomOrbit(1.19));
+document.getElementById('orbit-reset').addEventListener('click',()=>{
+  if(inspectSide) inspect.click();
+  else resetOrbit();
+});
+function pinchSpan(){
+  const [a,b]=orbitPointers.values();
+  return Math.hypot(a.x-b.x,a.y-b.y);
+}
+viewSurface.addEventListener('pointerdown',e=>{
+  if(afterStory||finished||e.button!==0||orbitPointers.size>=2) return;
+  viewSurface.setPointerCapture(e.pointerId);
+  orbitPointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+});
+viewSurface.addEventListener('pointermove',e=>{
+  if(afterStory||finished) return;
+  const old=orbitPointers.get(e.pointerId);
+  if(!old) return;
+  const pinching=orbitPointers.size===2;
+  const oldSpan=pinching?pinchSpan():0;
+  orbitPointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pinching){
+    const span=pinchSpan();
+    if(oldSpan>1&&span>1) zoomOrbit(oldSpan/span);
+  }else{
+    orbitYaw=THREE.MathUtils.euclideanModulo(orbitYaw-(e.clientX-old.x)*.008,Math.PI*2);
+    orbitPitch=THREE.MathUtils.clamp(orbitPitch+(e.clientY-old.y)*.007,.12,1.52);
+  }
+});
+for(const name of ['pointerup','pointercancel','lostpointercapture']){
+  viewSurface.addEventListener(name,e=>orbitPointers.delete(e.pointerId));
+}
+viewSurface.addEventListener('wheel',e=>{
+  if(afterStory||finished) return;
+  e.preventDefault();
+  zoomOrbit(Math.exp(THREE.MathUtils.clamp(e.deltaY,-180,180)*.0017));
+},{passive:false});
+
+const chapters=[
+  {title:'第一关 · 穿过遗迹',body:'石门缓缓升起。夜巨人从门缝里听见熟悉的呼喊：“我在这里！”他握紧拳头，向驿风的方向走去。',image:'chapter-1.jpg',alt:'夜巨人走过月夜遗迹的石门',button:'进入光之迷宫'},
+  {title:'第二关 · 光照归途',body:'两面镜子接力，把蓝光送进水晶。金色石门亮了起来。夜巨人知道，主人驿风就在门后。',image:'chapter-2.jpg',alt:'夜巨人用镜子把蓝色光束送入金色水晶',button:'进入重力密室'},
+  {title:'第三关 · 星纹石门',body:'星屑拼成的符号依次点亮三盏灯。石门后传来沉重的脚步声，夜巨人知道，守卫正在通往驿风的路上等他。',image:'chapter-2.jpg',alt:'夜巨人望向遗迹深处',button:'前往守卫大厅'},
+  {title:'第十关 · 驿风得救',body:'密室的三盏灯同时亮起。夜巨人蹲下来，伸出厚厚的石手，把驿风扶了起来。“走，我们回家。”',image:'chapter-3.jpg',alt:'夜巨人伸手扶起安全获救的驿风',button:'查看通关结果'},
+  {title:'第四关 · 深处的轰鸣',body:'守卫退去，石门后传来沉闷的转轴声。夜巨人循着驿风的回音，踏上通往机械深渊的石阶。',image:'chapter-4.jpg',alt:'古老齿轮和深渊上方的断桥',button:'进入机械深渊'},
+  {title:'第五关 · 铰链归位',body:'两段桥板终于接在一起。轰鸣渐弱，岩石裂隙里透出水晶的光。夜巨人顺着那束光继续前进。',image:'chapter-4.jpg',alt:'机械深渊的桥板与齿轮',button:'进入幻影晶窟'},
+  {title:'第六关 · 幻影散去',body:'三枚水晶互相照亮，最后一段石路从幻影中显出。越过出口，夜巨人听见深处有两声不同的低吼。',image:'chapter-5.jpg',alt:'三枚水晶照亮晶窟中的石路',button:'进入深渊兽巢'},
+  {title:'第七关 · 兽巢之后',body:'兽巢归于平静。石门另一侧传来驿风微弱的回应。夜巨人握紧拳头，把脚步声留给下一段旅程。',image:'chapter-6.jpg',alt:'兽巢尽头微亮的石门',button:'查看第七关结算'}
+];
+const story=document.getElementById('story');
+const storyImage=document.getElementById('story-image');
+const storyTitle=document.getElementById('story-title');
+const storyText=document.getElementById('story-text');
+const storyNext=document.getElementById('story-next');
+let afterStory=null;
+
+function playChapter(index,next){
+  if(afterStory) return;
+  const chapter=chapters[index];
+  afterStory=next;
+  resetInput();
+  storyImage.src=chapter.image;
+  storyImage.alt=chapter.alt;
+  storyTitle.textContent=chapter.title;
+  storyText.textContent=chapter.body;
+  storyNext.textContent=chapter.button;
+  story.hidden=false;
+  storyNext.focus();
+}
+function finishChapter(){
+  if(!afterStory) return;
+  const next=afterStory;
+  afterStory=null;
+  story.hidden=true;
+  next();
+}
+storyNext.addEventListener('click',finishChapter);
+story.addEventListener('keydown',event=>{
+  if(event.key==='Escape'){
+    event.preventDefault();
+    finishChapter();
+  }
+  if(event.key==='Tab') event.preventDefault();
+});
+
+const puzzle=document.getElementById('puzzle');
+const puzzleResult=document.getElementById('puzzle-result');
+const puzzleTitle=document.getElementById('puzzle-title');
+const puzzleDesc=document.getElementById('puzzle-desc');
+const puzzleBoard=document.getElementById('puzzle-board');
+const mirror1=document.getElementById('mirror-a'),mirror2=document.getElementById('mirror-b');
+const turnMirror=document.getElementById('turn-mirror');
+const mirrorSlider=document.getElementById('mirror-slider');
+const mirrorSliderName=document.getElementById('mirror-slider-name');
+const mirrorAngle=document.getElementById('mirror-angle');
+const lightRoom={left:-7.6,right:7.6,near:-23.2,far:-41.8,height:2.12};
+const chamber=new THREE.Group();
+scene.add(chamber);
+const roomDark=mat(0x20263a,.19), roomTrim=mat(0x415571,.35);
+const coolLight=new THREE.MeshBasicMaterial({color:0x72e8ff,toneMapped:false});
+const paleLight=new THREE.MeshBasicMaterial({color:0xc1fbff,toneMapped:false});
+const warmLight=new THREE.MeshBasicMaterial({color:0xffe8a0,toneMapped:false});
+const emitter=new THREE.Vector2(-6.2,-28.5);
+const receiver=new THREE.Vector2(4.8,-35.5);
+const lightExit=new THREE.Vector2(4.8,-41.6);
+const mirrors=[
+  {label:'①',point:new THREE.Vector2(-2.7,-28.5),degrees:0},
+  {label:'②',point:new THREE.Vector2(-2.7,-35.5),degrees:0}
+];
+const opticalFixtures=[
+  {point:emitter,radius:.49},
+  ...mirrors.map(m=>({point:m.point,radius:1.67,mirror:m})),
+  {point:receiver,radius:.65,receiver:true}
+];
+const beamTargets=opticalFixtures.slice(1);
+// Separates the two sight lines: A→B is to its west, B→crystal to its north.
+const stoneScreen={x:.9,z:-31.78,halfX:.36,halfZ:1.58};
+let lightSolved=false;
+let nearbyMirror=null;
+const mirrorHalfWidth=1.38;
+
+const skills=document.getElementById('skills');
+
+function roomBox(w,h,d,material,x,y,z) {
+  const piece=box(w,h,d,material,chamber,x,y,z);
+  piece.castShadow=false;
+  return piece;
+}
+
+function labelMarker(text,x,z,parent=chamber,height=5.32) {
+  const canvas=document.createElement('canvas');
+  canvas.width=canvas.height=128;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#0a2035';
+  ctx.beginPath();
+  ctx.arc(64,64,51,0,Math.PI*2);
+  ctx.fill();
+  ctx.strokeStyle='#69e4ff';
+  ctx.lineWidth=5;
+  ctx.stroke();
+  ctx.fillStyle='#eafaff';
+  ctx.font='bold 68px sans-serif';
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.fillText(text,64,66);
+  const texture=new THREE.CanvasTexture(canvas);
+  texture.colorSpace=THREE.SRGBColorSpace;
+  const marker=new THREE.Sprite(new THREE.SpriteMaterial({map:texture,depthWrite:false,toneMapped:false}));
+  marker.position.set(x,height,z);
+  marker.scale.set(1.04,1.04,1);
+  parent.add(marker);
+}
+
+roomBox(16.6,.3,19.6,roomDark,0,-.155,-32.5);
+for(let i=-7;i<=7;i+=2){
+  for(let j=-41;j<=-23;j+=2){
+    roomBox(1.92,.05,1.92,Math.abs(i)===1?roomTrim:roomDark,i,-.017,j);
+  }
+}
+for(const x of [-7.9,7.9]){
+  roomBox(.44,.7,18.9,roomTrim,x,.35,-32.55);
+  for(let j=-40;j<=-24;j+=4){
+    roomBox(.52,1.15,.57,roomDark,x,.63,j);
+    roomBox(.54,.045,.59,coolLight,x,1.22,j);
+  }
+}
+for(const z of [-23.03,-42.0]){
+  for(const [x,width] of z===-42 ? [[-2.7,10.3],[7.25,1.5]] : [[-4.7,5.5],[4.7,5.5]]){
+    roomBox(width,.94,.43,roomTrim,x,.47,z);
+  }
+}
+const entryPillars=[-1.65,1.65];
+for(const x of entryPillars) roomBox(.48,2.45,.55,roomTrim,x,1.22,-23.10);
+const lightDoor=roomBox(2.75,2.4,.37,roomTrim,lightExit.x,1.2,-42);
+for(const offset of [-1.57,1.57]){
+  roomBox(.43,3,.65,roomTrim,lightExit.x+offset,1.5,-42);
+  roomBox(.09,2.55,.045,warmLight,lightExit.x+offset,1.5,-41.64);
+}
+roomBox(3.56,.35,.68,roomTrim,lightExit.x,2.97,-42);
+const exitThreshold=roomBox(2.71,.052,.64,roomDark,lightExit.x,.027,-41.28);
+for(const fixture of opticalFixtures){
+  const {x,y:z}=fixture.point;
+  const pedestalWidth=fixture.mirror?2.45:1.14;
+  roomBox(pedestalWidth,.22,pedestalWidth,roomTrim,x,.11,z);
+  roomBox(fixture.mirror?1.45:.68,fixture.mirror?.39:1.65,
+    fixture.mirror?1.45:.68,roomDark,x,fixture.mirror?.39:.94,z);
+}
+const sourceGem=new THREE.Mesh(new THREE.OctahedronGeometry(.38),paleLight);
+sourceGem.position.set(emitter.x,lightRoom.height,emitter.y);
+chamber.add(sourceGem);
+const crystal=new THREE.Mesh(new THREE.OctahedronGeometry(.59),roomTrim);
+crystal.scale.y=1.47;
+crystal.position.set(receiver.x,lightRoom.height,receiver.y);
+chamber.add(crystal);
+const receiverRing=new THREE.Mesh(new THREE.TorusGeometry(.63,.035,8,36),roomTrim);
+receiverRing.position.set(receiver.x,.053,receiver.y);
+receiverRing.rotation.x=-Math.PI/2;
+chamber.add(receiverRing);
+function mirrorSurface(){
+  const canvas=document.createElement('canvas');
+  canvas.width=canvas.height=256;
+  const ctx=canvas.getContext('2d');
+  const glaze=ctx.createLinearGradient(0,256,256,0);
+  glaze.addColorStop(0,'#203c68');
+  glaze.addColorStop(.43,'#83bdde');
+  glaze.addColorStop(.59,'#d3f4ff');
+  glaze.addColorStop(.76,'#518ab5');
+  glaze.addColorStop(1,'#244c78');
+  ctx.fillStyle=glaze;
+  ctx.fillRect(0,0,256,256);
+  for(const [offset,width,opacity] of [[-51,13,.28],[-29,2,.66],[37,20,.20],[65,3,.51]]){
+    ctx.strokeStyle=`rgba(233,249,255,${opacity})`;
+    ctx.lineWidth=width;
+    ctx.beginPath();
+    ctx.moveTo(offset,256);
+    ctx.lineTo(256+offset,0);
+    ctx.stroke();
+  }
+  const texture=new THREE.CanvasTexture(canvas);
+  texture.colorSpace=THREE.SRGBColorSpace;
+  return texture;
+}
+const silveredGlass=mirrorSurface();
+const mirrorBrass=mat(0xbda272,.43);
+const blueReflect=new THREE.MeshBasicMaterial({
+  color:0x59dfff,transparent:true,opacity:.24,depthWrite:false,
+  blending:THREE.AdditiveBlending,toneMapped:false
+});
+for(const mirror of mirrors){
+  const stand=new THREE.Group();
+  stand.position.set(mirror.point.x,2.79,mirror.point.y);
+  stand.scale.set(2.86,3.92,1.72);
+  stand.rotation.y=mirrorYaw(mirror);
+  mirror.panel=stand;
+  chamber.add(stand);
+  const frameMesh=new THREE.Mesh(new THREE.BoxGeometry(1.21,1.13,.17),roomTrim);
+  stand.add(frameMesh);
+  const glassMaterial=new THREE.MeshPhysicalMaterial({
+    map:silveredGlass,emissiveMap:silveredGlass,emissive:0xa8e0ff,
+    emissiveIntensity:.26,roughness:.24,metalness:.13,clearcoat:.86,clearcoatRoughness:.14
+  });
+  mirror.glassMaterial=glassMaterial;
+  mirror.glints=[];
+  for(const side of [-1,1]){
+    const face=new THREE.Group();
+    face.rotation.y=side===1?0:Math.PI;
+    face.position.z=side*.09;
+    stand.add(face);
+    face.add(new THREE.Mesh(new THREE.PlaneGeometry(.96,.87),glassMaterial));
+    for(const x of [-.527,.527]){
+      const edge=new THREE.Mesh(new THREE.BoxGeometry(.085,.99,.063),mirrorBrass);
+      edge.position.set(x,0,.005);
+      face.add(edge);
+      for(const y of [-.45,.45]){
+        const finial=new THREE.Mesh(new THREE.OctahedronGeometry(.10),mirrorBrass);
+        finial.position.set(x,y,.037);
+        finial.scale.set(1,1,.58);
+        face.add(finial);
+      }
+    }
+    for(const y of [-.482,.482]){
+      const edge=new THREE.Mesh(new THREE.BoxGeometry(1.04,.07,.06),mirrorBrass);
+      edge.position.set(0,y,.005);
+      face.add(edge);
+    }
+    const glint=new THREE.Mesh(new THREE.PlaneGeometry(.24,.70),blueReflect);
+    glint.position.set(.08,.06,.006);
+    glint.rotation.z=-.33;
+    face.add(glint);
+    mirror.glints.push(glint);
+  }
+  labelMarker(mirror.label,mirror.point.x,mirror.point.y);
+}
+// A solid relief wall with matching collision and optical bounds.
+roomBox(stoneScreen.halfX*2,3.5,stoneScreen.halfZ*2,roomTrim,stoneScreen.x,1.75,stoneScreen.z);
+roomBox(.91,.22,3.37,roomDark,stoneScreen.x,.11,stoneScreen.z);
+roomBox(.90,.21,3.37,roomDark,stoneScreen.x,3.50,stoneScreen.z);
+for(const side of [-1,1]){
+  const wallFace=stoneScreen.x+side*.368;
+  for(const z of [-32.98,-31.78,-30.58]){
+    roomBox(.13,2.96,.34,roomDark,wallFace,1.65,z);
+  }
+  for(const y of [.48,2.96]){
+    roomBox(.049,.044,2.93,coolLight,wallFace+side*.08,y,stoneScreen.z);
+  }
+  for(const offset of [-.72,.72]){
+    const mark=roomBox(.042,.23,.23,warmLight,wallFace+side*.013,1.73,stoneScreen.z+offset);
+    mark.rotation.x=Math.PI/4;
+  }
+}
+const movableRoomPieces=[lightDoor,exitThreshold,crystal,receiverRing];
+chamber.remove(...movableRoomPieces);
+mergeByMaterial(chamber,true,false);
+chamber.add(...movableRoomPieces);
+chamber.visible=false;
+
+const beamRadius=.223;
+const lightAxis=new THREE.Vector3(0,1,0);
+const beamPath=[];
+const paleBeam=new THREE.MeshBasicMaterial({color:0xe8ffff,toneMapped:false});
+const softBeam=new THREE.MeshBasicMaterial({
+  color:0x22dfff,transparent:true,opacity:.50,depthWrite:false,
+  blending:THREE.AdditiveBlending,toneMapped:false
+});
+const beamHaze=new THREE.MeshBasicMaterial({
+  color:0x297aff,transparent:true,opacity:.22,depthWrite:false,
+  blending:THREE.AdditiveBlending,toneMapped:false
+});
+function glowMap(){
+  const canvas=document.createElement('canvas');
+  canvas.width=canvas.height=96;
+  const ctx=canvas.getContext('2d');
+  const fade=ctx.createRadialGradient(48,48,0,48,48,48);
+  fade.addColorStop(0,'rgba(255,255,255,1)');
+  fade.addColorStop(.19,'rgba(255,255,255,.62)');
+  fade.addColorStop(.53,'rgba(255,255,255,.16)');
+  fade.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=fade;
+  ctx.fillRect(0,0,96,96);
+  return new THREE.CanvasTexture(canvas);
+}
+const beamGlow=glowMap();
+const floorGlow=new THREE.MeshBasicMaterial({
+  map:beamGlow,color:0x46b9ff,transparent:true,opacity:.79,depthWrite:false,
+  blending:THREE.AdditiveBlending,toneMapped:false,polygonOffset:true,polygonOffsetFactor:-2
+});
+const beamSparks=new THREE.PointsMaterial({
+  color:0xbef4ff, map:beamGlow, size:.235, transparent:true, opacity:.95, depthWrite:false,
+  blending:THREE.AdditiveBlending, toneMapped:false
+});
+for(let i=0;i<3;i++){
+  const group=new THREE.Group();
+  const core=new THREE.Mesh(new THREE.CylinderGeometry(.052,.052,1,12),paleBeam);
+  const halo=new THREE.Mesh(new THREE.CylinderGeometry(beamRadius,beamRadius,1,12),softBeam);
+  const haze=new THREE.Mesh(new THREE.CylinderGeometry(.43,.43,1,14),beamHaze);
+  const geometry=new THREE.BufferGeometry();
+  geometry.setAttribute('position',new THREE.BufferAttribute(new Float32Array(90),3));
+  const sparks=new THREE.Points(geometry,beamSparks);
+  sparks.frustumCulled=false;
+  group.userData.sparks=sparks;
+  const pool=new THREE.Mesh(new THREE.PlaneGeometry(1,1),floorGlow);
+  pool.rotation.order='YXZ';
+  pool.rotation.x=-Math.PI/2;
+  pool.visible=false;
+  const endpoint=new THREE.Sprite(new THREE.SpriteMaterial({map:beamGlow,color:0x63d9ff,
+    transparent:true,opacity:.91,depthWrite:false,blending:THREE.AdditiveBlending,toneMapped:false}));
+  endpoint.visible=false;
+  group.userData.pool=pool;
+  group.userData.endpoint=endpoint;
+  const splash=new THREE.Sprite(new THREE.SpriteMaterial({
+    map:beamGlow,color:0x239bff,transparent:true,opacity:.68,depthWrite:false,
+    blending:THREE.AdditiveBlending,toneMapped:false
+  }));
+  splash.visible=false;
+  group.userData.splash=splash;
+  chamber.add(pool,endpoint,splash);
+  group.add(core,halo,haze,sparks);
+  group.visible=false;
+  beamPath.push(group);
+  chamber.add(group);
+}
+function animateBeam(now){
+  softBeam.opacity=.51+Math.sin(now*.007)*.11;
+  beamHaze.opacity=.225+Math.sin(now*.004)*.055;
+  for(const [index,beam] of beamPath.entries()){
+    if(!beam.visible) continue;
+    const glintSize=1.04+Math.sin(now*.009+index)*.25;
+    const impactSize=glintSize*(beam.userData.blocked?1.63:1);
+    beam.userData.endpoint.scale.set(impactSize,impactSize,1);
+    beam.userData.splash.scale.set(impactSize*2.13,impactSize*2.13,1);
+    beam.userData.splash.material.opacity=.53+Math.sin(now*.012+index)*.12;
+    const positions=beam.userData.sparks.geometry.getAttribute('position');
+    for(let i=0;i<positions.count;i++){
+      const phase=(now*(.00077+i%3*.00021)+i/positions.count+index*.29)%1;
+      const angle=now*.002+i*2.4;
+      positions.setXYZ(i,Math.cos(angle)*(.055+i%4*.035),phase-.5,Math.sin(angle)*(.055+i%4*.035));
+    }
+    positions.needsUpdate=true;
+  }
+}
+
+function drawBeam(index,from,to,blocked){
+  const group=beamPath[index];
+  const ray=new THREE.Vector3(to.x-from.x,0,to.y-from.y);
+  group.position.set((from.x+to.x)/2,lightRoom.height,(from.y+to.y)/2);
+  group.quaternion.setFromUnitVectors(lightAxis,ray.clone().normalize());
+  group.scale.y=ray.length();
+  const pool=group.userData.pool;
+  pool.position.set(group.position.x,.044,group.position.z);
+  pool.rotation.y=Math.atan2(ray.x,ray.z);
+  pool.scale.set(2.23,group.scale.y+1.4,1);
+  const endpoint=group.userData.endpoint;
+  endpoint.position.set(to.x,lightRoom.height,to.y);
+  if(blocked) endpoint.position.addScaledVector(ray.normalize(),-.06);
+  endpoint.material.color.setHex(blocked?0xcceeff:0x75dfff);
+  const splash=group.userData.splash;
+  splash.position.copy(endpoint.position);
+  group.userData.blocked=blocked;
+  group.visible=pool.visible=endpoint.visible=splash.visible=true;
+}
+
+function mirrorYaw(mirror){
+  return THREE.MathUtils.degToRad(mirror.degrees-45);
+}
+function mirrorNormal(mirror){
+  const angle=mirrorYaw(mirror);
+  return new THREE.Vector2(Math.sin(angle),Math.cos(angle));
+}
+
+function rayHitsScreen(origin,direction){
+  let near=-Infinity, far=Infinity;
+  for(const [value,delta,center,half] of [
+    [origin.x,direction.x,stoneScreen.x,stoneScreen.halfX],
+    [origin.y,direction.y,stoneScreen.z,stoneScreen.halfZ]
+  ]){
+    if(Math.abs(delta)<1e-7){
+      if(Math.abs(value-center)>half) return Infinity;
+      continue;
+    }
+    const a=(center-half-value)/delta;
+    const b=(center+half-value)/delta;
+    near=Math.max(near,Math.min(a,b));
+    far=Math.min(far,Math.max(a,b));
+    if(near>far) return Infinity;
+  }
+  return near>.045?near:Infinity;
+}
+
+function firstBeamHit(origin,direction,previous){
+  const distances=[];
+  if(direction.x>1e-5) distances.push((lightRoom.right-origin.x)/direction.x);
+  if(direction.x<-1e-5) distances.push((lightRoom.left-origin.x)/direction.x);
+  if(direction.y>1e-5) distances.push((lightRoom.near-origin.y)/direction.y);
+  if(direction.y<-1e-5) distances.push((lightRoom.far-origin.y)/direction.y);
+  const wallDistance=rayHitsScreen(origin,direction);
+  let distance=Math.min(wallDistance,...distances);
+  let fixture=null;
+  for(const target of beamTargets){
+    if(target===previous) continue;
+    const delta=target.point.clone().sub(origin);
+    let projection=delta.dot(direction);
+    if(target.mirror){
+      const normal=mirrorNormal(target.mirror);
+      const incidence=direction.dot(normal);
+      if(Math.abs(incidence)<.001) continue;
+      projection=delta.dot(normal)/incidence;
+      const hitOffset=direction.clone().multiplyScalar(projection).sub(delta);
+      if(hitOffset.length()>mirrorHalfWidth) continue;
+    }else{
+      const offset=Math.abs(delta.x*direction.y-delta.y*direction.x);
+      if(offset>target.radius) continue;
+      projection-=Math.sqrt(target.radius*target.radius-offset*offset);
+    }
+    if(projection<=.045||projection>=distance) continue;
+    fixture=target;
+    distance=projection;
+  }
+  return {fixture,blocked:!fixture&&distance===wallDistance,end:origin.clone().addScaledVector(direction,distance)};
+}
+
+let lastLightBlocked=false;
+function updateLightPath(){
+  let origin=emitter;
+  const direction=new THREE.Vector2(1,0);
+  let previous=null;
+  let received=false;
+  let blockedByWall=false;
+  const reached=new Set();
+  for(const beam of beamPath) beam.visible=beam.userData.pool.visible=beam.userData.endpoint.visible=beam.userData.splash.visible=false;
+  for(let i=0;i<beamPath.length;i++){
+    const {fixture,blocked,end}=firstBeamHit(origin,direction,previous);
+    drawBeam(i,origin,end,blocked);
+    blockedByWall ||= blocked;
+    if(!fixture||fixture.receiver){
+      received=Boolean(fixture?.receiver);
+      break;
+    }
+    const mirror=fixture.mirror;
+    reached.add(mirror);
+    const normal=mirrorNormal(mirror);
+    direction.addScaledVector(normal,-2*direction.dot(normal));
+    origin=end;
+    previous=fixture;
+  }
+  for(const mirror of mirrors){
+    const lit=reached.has(mirror);
+    mirror.glassMaterial.emissiveIntensity=lit?.85:.25;
+    for(const glint of mirror.glints) glint.visible=lit;
+  }
+  if(blockedByWall&&!lastLightBlocked) cue('impact');
+  lastLightBlocked=blockedByWall;
+  if(received && !lightSolved){
+    lightSolved=true;
+    crystal.material=warmLight;
+    receiverRing.material=warmLight;
+    exitThreshold.material=warmLight;
+    toast('水晶已点亮，出口打开！');
+    cue('crystal');
+    cue('door');
+  }
+  progress.textContent=lightSolved?'第 2 / 10 关 · 水晶已点亮':
+    `第 2 / 10 关 · 镜① ${reached.has(mirrors[0])?'已接光':'未接光'} · 镜② ${reached.has(mirrors[1])?'已接光':'未接光'}`;
+  tip.textContent=lightSolved?'沿光束去水晶旁，穿过金色石门。':'靠近巨镜，用滑杆转动巨镜，借两面镜子让光束绕过石墙。';
+}
+
+function findNearbyMirror(){
+  if(stage!==2||lightSolved||afterStory) return null;
+  let closest=null;
+  let best=3.12;
+  for(const mirror of mirrors){
+    const distance=Math.hypot(hero.position.x-mirror.point.x,hero.position.z-mirror.point.y);
+    if(distance<best){closest=mirror;best=distance}
+  }
+  return closest;
+}
+function updateMirrorButton(){
+  const mirror=findNearbyMirror();
+  turnMirror.hidden=!mirror;
+  if(nearbyMirror===mirror) return;
+  nearbyMirror=mirror;
+  if(!mirror) return;
+  mirrorSliderName.textContent=`滑动转镜${mirror.label}`;
+  mirrorSlider.value=String(mirror.degrees);
+  mirrorAngle.textContent=`${mirror.degrees}°`;
+}
+mirrorSlider.addEventListener('input',()=>{
+  const mirror=findNearbyMirror();
+  if(!mirror||mirror!==nearbyMirror) return;
+  if(Number(mirrorSlider.value)!==mirror.degrees) cue('mirror');
+  mirror.degrees=Number(mirrorSlider.value);
+  mirror.panel.rotation.y=mirrorYaw(mirror);
+  mirrorAngle.textContent=`${mirror.degrees}°`;
+  updateLightPath();
+  updateMirrorButton();
+});
+
+function moveInChamber(dx,dz){
+  const pos=hero.position;
+  const x=THREE.MathUtils.clamp(pos.x+dx,lightRoom.left+.28,lightRoom.right-.28);
+  let z=THREE.MathUtils.clamp(pos.z+dz,lightRoom.far+.37,lightRoom.near-.05);
+  if(z<-40.8 && (!lightSolved || Math.abs(x-lightExit.x)>.94)) z=-40.8;
+  if(moveChamberStep(pos,x,z)) return 1;
+  const sideways=moveChamberStep(pos,x,pos.z);
+  const forward=moveChamberStep(pos,pos.x,z);
+  return sideways||forward;
+}
+function moveChamberStep(pos,x,z){
+  const wallDx=Math.max(0,Math.abs(x-stoneScreen.x)-stoneScreen.halfX);
+  const wallDz=Math.max(0,Math.abs(z-stoneScreen.z)-stoneScreen.halfZ);
+  if(Math.hypot(wallDx,wallDz)<heroRadius) return 0;
+  if(opticalFixtures.some(({point,radius})=>Math.hypot(x-point.x,z-point.y)<heroRadius+radius)) return 0;
+  if(Math.hypot(pos.x-x,pos.z-z)<1e-6) return 0;
+  pos.set(x,0,z);
+  return 1;
+}
+
+function resetLightRoom(){
+  lightSolved=false;
+  nearbyMirror=null;
+  lastLightBlocked=false;
+  lightDoor.position.y=1.2;
+  exitThreshold.material=roomDark;
+  crystal.material=receiverRing.material=roomTrim;
+  crystal.rotation.y=0;
+  for(const mirror of mirrors){
+    mirror.degrees=0;
+    mirror.panel.rotation.y=mirrorYaw(mirror);
+  }
+}
+
+function enterLightRoom(){
+  chamber.visible=true;
+  hero.position.set(0,0,-24.8);
+  hero.rotation.y=0;
+  toast('第二关 · 光之迷宫');
+  updateLightPath();
+  updateMirrorButton();
+}
+
+const gravityRoom=new THREE.Group();
+scene.add(gravityRoom);
+gravityRoom.visible=false;
+
+function carvedStone(){
+  const canvas=document.createElement('canvas');
+  canvas.width=canvas.height=256;
+  const ctx=canvas.getContext('2d');
+  const shade=ctx.createLinearGradient(0,0,256,256);
+  shade.addColorStop(0,'#d2d8e5');
+  shade.addColorStop(.46,'#969dab');
+  shade.addColorStop(1,'#73798d');
+  ctx.fillStyle=shade;
+  ctx.fillRect(0,0,256,256);
+  for(let i=0;i<1460;i++){
+    ctx.fillStyle=i%3?'rgba(18,26,42,.12)':'rgba(241,245,255,.16)';
+    ctx.fillRect(ruinRandom()*256,ruinRandom()*256,1+ruinRandom()*3,1+ruinRandom()*2);
+  }
+  for(let i=0;i<7;i++){
+    let x=ruinRandom()*256,y=ruinRandom()*256;
+    ctx.beginPath();
+    ctx.moveTo(x,y);
+    for(let j=0;j<4;j++){
+      x+=(ruinRandom()-.46)*18;
+      y+=9+ruinRandom()*12;
+      ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle=i%2?'#4d526055':'#444c5f88';
+    ctx.lineWidth=.8+i%3*.35;
+    ctx.stroke();
+  }
+  ctx.strokeStyle='#eef5ff58';
+  ctx.lineWidth=2;
+  ctx.strokeRect(1,1,254,254);
+  ctx.strokeStyle='#252c3a9c';
+  ctx.lineWidth=5;
+  ctx.strokeRect(4,4,248,248);
+  const tex=new THREE.CanvasTexture(canvas);
+  tex.colorSpace=THREE.SRGBColorSpace;
+  return tex;
+}
+const stoneMap=carvedStone();
+const gravityStone=new THREE.MeshStandardMaterial({color:0x657089,map:stoneMap,bumpMap:stoneMap,bumpScale:.075,roughness:.87,metalness:.09});
+const gravityTrim=new THREE.MeshStandardMaterial({color:0x4b5370,map:stoneMap,bumpMap:stoneMap,bumpScale:.06,roughness:.85});
+const gravityEdge=mat(0x77687b,.36);
+const bronze=mat(0xc38951,.65);
+const gravityIdle=new THREE.MeshBasicMaterial({color:0x36435d});
+const gravityGold=new THREE.MeshBasicMaterial({color:0xffcf71,toneMapped:false});
+const runeHues=[0x6cedff,0x93ffa3,0xffbb57];
+const runeTints=runeHues.map(color=>new THREE.MeshBasicMaterial({color,toneMapped:false}));
+const runeSymbols=['●','◆','▲'];
+const runeOrder=[2,0,1];
+const plates=[];
+const lamps=[];
+const fragments=[];
+const chamberPillars=[];
+const plateLayout=[[-5.9,-59.8],[6.1,-65.4],[0,-71.5]];
+let runeStep=0,lastPlate=-1,gravityOpen=false;
+let fragmentCount=0;
+const relicWall=mat(0x34354e,.23);
+const relicInlay=new THREE.MeshBasicMaterial({color:0x748ba9,toneMapped:false});
+const relicMosaic=mat(0x414767,.28);
+
+function gravityBox(w,h,d,material,x,y,z){
+  const object=box(w,h,d,material,gravityRoom,x,y,z);
+  object.castShadow=false;
+  return object;
+}
+
+const {halfWidth:roomHalf,centerZ:roomZ,depth:roomDepth,gateZ:starGateZ}=gravityLayout;
+gravityBox(roomHalf*2+.55,.26,roomDepth,gravityStone,0,-.14,roomZ);
+for(let x=-9.5;x<=9.5;x+=2.1){
+  for(let z=-75.8;z<=-49;z+=2.1){
+    const material=Math.abs(x)<2?relicMosaic:(Math.round((x+z)/2)%3===0?gravityEdge:gravityTrim);
+    gravityBox(2.04,.048,2.04,material,x,-.017,z);
+  }
+}
+for(const side of [-1,1]){
+  gravityBox(.56,.42,roomDepth,gravityStone,side*roomHalf,.21,roomZ);
+  gravityBox(.44,1.30,roomDepth,relicWall,side*(roomHalf+.05),.86,roomZ);
+  gravityBox(.68,.16,roomDepth,gravityEdge,side*roomHalf,1.60,roomZ);
+  gravityBox(.045,.042,roomDepth-.8,bronze,side*(roomHalf-.44),.027,roomZ);
+  for(let bay=0;bay<6;bay++){
+    const z=-51.7-bay*4.25;
+    gravityBox(.14,.89,3.42,gravityTrim,side*(roomHalf-.23),.86,z);
+    gravityBox(.06,.075,3.37,bronze,side*(roomHalf-.31),1.28,z);
+    for(const [offset,angle] of [[-.43,.68],[0,-.68],[.43,.68]]){
+      const cut=gravityBox(.06,.40,.07,relicInlay,side*(roomHalf-.32),.88,z+offset);
+      cut.rotation.x=side*angle;
+    }
+    gravityBox(.70,1.9,.46,gravityStone,side*roomHalf,.95,z+2);
+    gravityBox(.75,.12,.55,bronze,side*roomHalf,1.88,z+2);
+  }
+  const wing=(roomHalf-1.6);
+  gravityBox(wing,2.60,.44,gravityStone,side*(1.6+wing/2),1.3,starGateZ-.16);
+  gravityBox(wing,.14,.56,bronze,side*(1.6+wing/2),1.94,starGateZ+.09);
+  gravityBox(.72,3.48,.92,gravityStone,side*1.86,1.74,starGateZ);
+  gravityBox(.86,.24,1.03,bronze,side*1.86,3.51,starGateZ);
+}
+for(const [x,z] of [[-3.65,-54.7],[3.65,-54.7],[-7.6,-62.4],[4.1,-61.3],[-4.25,-68.6],[7.6,-71.4]]){
+  chamberPillars.push({x,z,half:.67});
+  gravityBox(1.34,.25,1.34,gravityEdge,x,.125,z);
+  gravityBox(1.04,2.38,1.04,gravityStone,x,1.43,z);
+  gravityBox(1.18,.19,1.18,bronze,x,2.69,z);
+  gravityBox(.72,.12,.72,relicMosaic,x,2.84,z);
+  for(const face of [-1,1]){
+    gravityBox(.15,1.24,.031,relicInlay,x,1.61,z+face*.532);
+    gravityBox(.44,.078,.032,bronze,x,1.01,z+face*.534);
+  }
+}
+gravityBox(4.40,.47,.84,gravityStone,0,3.48,starGateZ);
+gravityBox(3.90,.09,.95,bronze,0,3.75,starGateZ);
+
+const starDaisZ=-63.4;
+for(const [radius,material] of [[1.35,bronze],[2.23,relicInlay],[2.52,bronze]]){
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(radius,.028,6,48),material);
+  ring.position.set(0,.038,starDaisZ);
+  ring.rotation.x=-Math.PI/2;
+  gravityRoom.add(ring);
+}
+// Three inlaid trails radiate from the floor mosaic toward the star fragments.
+const starRoutes=[
+  [[-5.4,-57.6],[-7.2,-55.7]],
+  [[2.6,-57.9],[7.45,-59.55]],
+  [[-2.3,-70.4],[-6.85,-70.8]]
+];
+const starSites=starRoutes.map(([,site])=>site);
+const dustPositions=[];
+for(const [branch,route] of starRoutes.entries()){
+  let from=[0,starDaisZ];
+  for(const to of route){
+    const steps=Math.ceil(Math.hypot(to[0]-from[0],to[1]-from[1])*2);
+    for(let i=1;i<=steps;i++){
+      const t=i/steps;
+      const offset=Math.sin(i*2.47+branch)*(.17+.28*t);
+      dustPositions.push(THREE.MathUtils.lerp(from[0],to[0],t)+offset,.045+.04*(i%3),
+        THREE.MathUtils.lerp(from[1],to[1],t)+offset*.52);
+    }
+    from=to;
+  }
+  const [x,z]=from;
+  for(let i=0;i<17;i++){
+    const angle=i*2.39996,radius=.24+(i%6)*.21;
+    dustPositions.push(x+Math.cos(angle)*radius,.07+(i%4)*.045,z+Math.sin(angle)*radius);
+  }
+}
+const dustGeometry=new THREE.BufferGeometry();
+dustGeometry.setAttribute('position',new THREE.Float32BufferAttribute(dustPositions,3));
+const starDust=new THREE.Points(dustGeometry,new THREE.PointsMaterial({
+  map:beamGlow,color:0xffe7af,size:.26,transparent:true,opacity:.88,depthWrite:false,
+  blending:THREE.AdditiveBlending,toneMapped:false
+}));
+gravityRoom.add(starDust);
+
+for(const [index,[x,z]] of plateLayout.entries()){
+  gravityBox(2.55,.17,2.55,gravityEdge,x,.085,z);
+  const raised=new THREE.Group();
+  raised.position.set(x,.20,z);
+  gravityRoom.add(raised);
+  box(2.24,.28,2.24,gravityStone,raised,0,0,0).castShadow=false;
+  const geometry=index===0?new THREE.RingGeometry(.62,.76,32):new THREE.RingGeometry(.61,.79,index===1?4:3);
+  const rune=new THREE.Mesh(geometry,runeTints[index]);
+  rune.rotation.x=-Math.PI/2;
+  rune.position.y=.153;
+  raised.add(rune);
+  plates.push({x,z,group:raised});
+  labelMarker(runeSymbols[index],x,z,gravityRoom,1.21);
+}
+for(let i=0;i<3;i++){
+  const aboveGate=i===1;
+  const x=(i-1)*3.15,z=starGateZ+(aboveGate?.30:2.65);
+  const height=aboveGate?4.18:2.34;
+  if(!aboveGate){
+    gravityBox(1.18,.22,1.18,gravityEdge,x,.11,z);
+    gravityBox(.52,1.60,.52,gravityStone,x,1.02,z);
+    gravityBox(.73,.14,.73,bronze,x,1.89,z);
+    chamberPillars.push({x,z,half:.59});
+  }
+  const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.46),gravityIdle);
+  gem.position.set(x,height,z);
+  gravityRoom.add(gem);
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(.60,.029,6,32),gravityIdle);
+  ring.position.copy(gem.position);
+  ring.rotation.x=Math.PI/2;
+  gravityRoom.add(ring);
+  const lamp=new THREE.PointLight(runeHues[i],0,5,2);
+  lamp.position.copy(gem.position);
+  gravityRoom.add(lamp);
+  lamps.push({gem,ring,lamp});
+  labelMarker(runeSymbols[i],x,z,gravityRoom,height+1);
+}
+const starPoolMaterial=new THREE.MeshBasicMaterial({
+  map:beamGlow,color:0xffcb67,transparent:true,opacity:.94,depthWrite:false,
+  blending:THREE.AdditiveBlending,toneMapped:false
+});
+for(const [x,z] of starSites){
+  const crystal=new THREE.Mesh(new THREE.OctahedronGeometry(.26),gravityGold);
+  crystal.position.set(x,.65,z);
+  const halo=new THREE.Mesh(new THREE.PlaneGeometry(2.75,2.75),starPoolMaterial);
+  halo.rotation.x=-Math.PI/2;
+  halo.position.set(x,.054,z);
+  gravityRoom.add(crystal,halo);
+  fragments.push({x,z,crystal,halo,found:false});
+}
+const gravityGate=new THREE.Group();
+gravityGate.position.set(0,1.4,starGateZ);
+gravityRoom.add(gravityGate);
+box(3.00,2.76,.31,gravityStone,gravityGate,0,0,0).castShadow=false;
+for(const x of [-1.31,0,1.31]) box(.084,2.6,.066,bronze,gravityGate,x,0,.174).castShadow=false;
+for(const y of [-1.21,1.21]) box(2.83,.12,.07,bronze,gravityGate,0,y,.174).castShadow=false;
+for(let i=0;i<3;i++){
+  const seal=new THREE.Mesh(new THREE.OctahedronGeometry(.24),gravityIdle);
+  seal.position.set((i-1)*.76,.05,.233);
+  seal.scale.z=.37;
+  gravityGate.add(seal);
+  lamps[i].seal=seal;
+}
+const rescueMark=new THREE.Mesh(new THREE.CircleGeometry(.85,32),gravityGold);
+rescueMark.rotation.x=-Math.PI/2;
+rescueMark.position.set(0,.055,starGateZ+1.15);
+rescueMark.visible=false;
+gravityRoom.add(rescueMark);
+const livePieces=[rescueMark,...lamps.flatMap(entry=>[entry.gem,entry.ring]),
+  ...fragments.flatMap(entry=>[entry.crystal,entry.halo])];
+gravityRoom.remove(...livePieces);
+mergeByMaterial(gravityRoom,true,false);
+gravityRoom.add(...livePieces);
+
+function showGravityLamps(){
+  for(const [index,entry] of lamps.entries()){
+    const lit=runeOrder.indexOf(index)<runeStep;
+    entry.gem.material=entry.ring.material=entry.seal.material=lit?runeTints[index]:gravityIdle;
+    entry.lamp.intensity=lit?6:0;
+  }
+  const clue=runeOrder.map((rune,index)=>fragments[index].found?runeSymbols[rune]:'？').join(' → ');
+  progress.textContent=`第 3 / 10 关 · 星屑 ${fragmentCount}/3 · ${clue} · 符文灯 ${runeStep}/3`;
+  if(gravityOpen) tip.textContent='三灯已按顺序点亮。穿过金色石门，前往守卫大厅。';
+  else if(fragmentCount===fragments.length) tip.textContent=`按提示踩石板。下一块是 ${runeSymbols[runeOrder[runeStep]]}，踩错可重新试。`;
+  else tip.textContent='沿地面的星光寻找三枚星屑。每枚都会揭示一个符号，集齐后石板才会回应。';
+}
+
+function resetThirdRoom(){
+  runeStep=fragmentCount=0;
+  gravityOpen=false;
+  lastPlate=-1;
+  gravityGate.position.y=1.4;
+  rescueMark.visible=false;
+  for(const plate of plates) plate.group.position.y=.20;
+  for(const fragment of fragments){
+    fragment.found=false;
+    fragment.crystal.visible=fragment.halo.visible=true;
+  }
+}
+
+function enterThirdRoom(){
+  gravityRoom.visible=true;
+  hero.position.set(0,0,gravityLayout.spawnZ);
+  showGravityLamps();
+  toast('第三关 · 星纹密室');
+}
+function moveInGravityRoom(dx,dz){
+  const pos=hero.position;
+  const x=THREE.MathUtils.clamp(pos.x+dx,-roomHalf+.75,roomHalf-.75);
+  let z=THREE.MathUtils.clamp(pos.z+dz,starGateZ+.22,roomZ+roomDepth/2-.55);
+  const threshold=starGateZ+1.30;
+  if(z<threshold&&(!gravityOpen||gravityGate.position.y<3.8||Math.abs(x)>1.24)) z=threshold;
+  if(moveGravityStep(pos,x,z)) return 1;
+  const sideways=moveGravityStep(pos,x,pos.z);
+  const forward=moveGravityStep(pos,pos.x,z);
+  return sideways||forward;
+}
+function moveGravityStep(pos,x,z){
+  if(Math.hypot(pos.x-x,pos.z-z)<1e-6) return 0;
+  for(const pillar of chamberPillars){
+    const scaleX=Math.max(0,Math.abs(x-pillar.x)-pillar.half);
+    const scaleZ=Math.max(0,Math.abs(z-pillar.z)-pillar.half);
+    if(Math.hypot(scaleX,scaleZ)<heroRadius) return 0;
+  }
+  pos.set(x,0,z);
+  return 1;
+}
+function updateGravityRoom(dt,now=performance.now()){
+  starDust.material.opacity=.73+.14*Math.sin(now*.002);
+  for(const [i,fragment] of fragments.entries()){
+    if(fragment.found) continue;
+    fragment.crystal.position.y=.61+Math.sin(now*.0025+i)*.15;
+    fragment.crystal.rotation.y+=dt*1.2;
+    fragment.halo.scale.setScalar(1+.11*Math.sin(now*.004+i));
+    if(Math.hypot(hero.position.x-fragment.x,hero.position.z-fragment.z)>1.06) continue;
+    fragment.found=true;
+    fragment.crystal.visible=fragment.halo.visible=false;
+    fragmentCount++;
+    showGravityLamps();
+    cue('crystal');
+    toast(`找到星屑 · ${['第一个','第二个','第三个'][i]}符号是 ${runeSymbols[runeOrder[i]]}`);
+  }
+  const plateIndex=plates.findIndex(p=>Math.abs(p.x-hero.position.x)<1.10&&
+    Math.abs(p.z-hero.position.z)<1.10);
+  for(const [index,plate] of plates.entries()){
+    plate.group.position.y+=((plateIndex===index?.085:.20)-plate.group.position.y)*Math.min(1,dt*15);
+  }
+  if(plateIndex>=0&&plateIndex!==lastPlate&&!gravityOpen){
+    cue('plate');
+    if(fragmentCount<fragments.length){
+      toast('先沿星光找齐三枚星屑。');
+    }else if(plateIndex===runeOrder[runeStep]){
+      runeStep++;
+      gravityOpen=runeStep===runeOrder.length;
+      if(gravityOpen){
+        rescueMark.visible=true;
+        toast('三枚星纹连成一线，石门开启！');
+        cue('door');
+      }
+    }else{
+      runeStep=plateIndex===runeOrder[0]?1:0;
+      toast('灯序重新开始，星屑仍在。');
+    }
+    showGravityLamps();
+  }
+  lastPlate=plateIndex;
+  for(const [index,entry] of lamps.entries()){
+    entry.gem.rotation.y+=dt*.54;
+    entry.ring.rotation.y+=dt*.92;
+    if(runeOrder.indexOf(index)<runeStep) entry.lamp.intensity=6+Math.sin(now*.004+index)*1.05;
+  }
+  if(!gravityOpen) return;
+  gravityGate.position.y=Math.min(4.4,gravityGate.position.y+dt*2.7);
+  if(gravityGate.position.y>3.8&&hero.position.z<starGateZ+.58&&Math.abs(hero.position.x)<1.15){
+    completeLevel(stage);
+  }
+}
+
+const audioMusic=document.getElementById('audio-music');
+const audioFx=document.getElementById('audio-fx');
+function audioPreference(key){
+  try{return localStorage.getItem(key)!=='off'}catch{return true}
+}
+let musicOn=audioPreference('nightGiantMusic'),fxOn=audioPreference('nightGiantFx');
+let audio=null,audioActivation=null,musicGain,fxGain,noiseBuffer;
+let nextNote=0,musicStep=0;
+let previousNoteMode='';
+const effectsLast=new Map();
+
+function paintAudioButtons(){
+  audioMusic.textContent=musicOn?'音乐 开':'音乐 关';
+  audioFx.textContent=fxOn?'音效 开':'音效 关';
+  audioMusic.setAttribute('aria-pressed',String(musicOn));
+  audioFx.setAttribute('aria-pressed',String(fxOn));
+}
+function enableAudio(){
+  if(audioActivation) return audioActivation;
+  const Context=window.AudioContext||window.webkitAudioContext;
+  if(!Context) return null;
+  try{
+    if(!audio){
+      audio=new Context();
+      musicGain=audio.createGain();
+      fxGain=audio.createGain();
+      musicGain.connect(audio.destination);
+      fxGain.connect(audio.destination);
+      const length=Math.floor(audio.sampleRate*.32);
+      noiseBuffer=audio.createBuffer(1,length,audio.sampleRate);
+      const data=noiseBuffer.getChannelData(0);
+      let rough=0;
+      for(let i=0;i<length;i++){
+        rough=rough*.72+(Math.random()*2-1)*.28;
+        data[i]=rough;
+      }
+      setAudioGains();
+    }
+    if(audio.state==='running') return null;
+    audioActivation=audio.resume().catch(()=>{}).finally(()=>{audioActivation=null});
+    return audioActivation;
+  }catch{return null}
+}
+function setAudioGains(){
+  if(!audio||!musicGain||!fxGain) return;
+  musicGain.gain.setTargetAtTime(musicOn?.22:0,audio.currentTime,.035);
+  fxGain.gain.setTargetAtTime(fxOn?.49:0,audio.currentTime,.018);
+}
+function storeAudioPreference(key,enabled){
+  try{localStorage.setItem(key,enabled?'on':'off')}catch{}
+  paintAudioButtons();
+  setAudioGains();
+}
+audioMusic.addEventListener('click',()=>{
+  musicOn=!musicOn;
+  enableAudio();
+  storeAudioPreference('nightGiantMusic',musicOn);
+});
+audioFx.addEventListener('click',()=>{
+  fxOn=!fxOn;
+  const ready=enableAudio();
+  storeAudioPreference('nightGiantFx',fxOn);
+  if(fxOn) Promise.resolve(ready).then(()=>cue('mirror'));
+});
+paintAudioButtons();
+// A user gesture is needed before the Web Audio context can emit sound on phones.
+for(const name of ['pointerup','keydown','click']){
+  addEventListener(name,()=>{if(musicOn||fxOn) enableAudio()},{capture:true,passive:true});
+}
+
+function tone(bus,at,freq,duration,volume,wave='sine',endFreq=freq){
+  const oscillator=audio.createOscillator(), gain=audio.createGain();
+  oscillator.type=wave;
+  oscillator.frequency.setValueAtTime(freq,at);
+  oscillator.frequency.exponentialRampToValueAtTime(endFreq,at+duration);
+  gain.gain.setValueAtTime(.0001,at);
+  gain.gain.exponentialRampToValueAtTime(volume,at+Math.min(.035,duration*.25));
+  gain.gain.exponentialRampToValueAtTime(.0001,at+duration);
+  oscillator.connect(gain);
+  gain.connect(bus);
+  oscillator.onended=()=>{oscillator.disconnect();gain.disconnect()};
+  oscillator.start(at);
+  oscillator.stop(at+duration+.012);
+}
+function grit(at,duration,amount,frequency){
+  const source=audio.createBufferSource(),filter=audio.createBiquadFilter(),gain=audio.createGain();
+  source.buffer=noiseBuffer;
+  source.loop=true;
+  filter.type='lowpass';
+  filter.frequency.setValueAtTime(frequency,at);
+  filter.frequency.exponentialRampToValueAtTime(frequency*.36,at+duration);
+  gain.gain.setValueAtTime(amount,at);
+  gain.gain.exponentialRampToValueAtTime(.0001,at+duration);
+  source.connect(filter);
+  filter.connect(gain);
+  gain.connect(fxGain);
+  source.onended=()=>{source.disconnect();filter.disconnect();gain.disconnect()};
+  source.start(at);
+  source.stop(at+duration+.01);
+}
+const cueIntervals={push:.22,mirror:.13,impact:.22,plate:.23,crystal:.6,door:.72,'depth-gear':.48,'depth-chime':.4,'depth-fall':.5,'depth-roar':.35};
+function cue(name){
+  if(!audio||audio.state!=='running'||!fxOn) return;
+  const at=audio.currentTime+.012;
+  if(at-(effectsLast.get(name)??-Infinity)<cueIntervals[name]) return;
+  effectsLast.set(name,at);
+  if(name==='push') grit(at,.19,.32,560);
+  if(name==='mirror'){
+    grit(at,.055,.26,1760);
+    tone(fxGain,at,390,.078,.085,'triangle',243);
+  }
+  if(name==='impact'){
+    tone(fxGain,at,139,.19,.17,'sine',72);
+    grit(at,.105,.22,1130);
+  }
+  if(name==='plate'){
+    tone(fxGain,at,104,.19,.26,'triangle',48);
+    grit(at,.14,.42,970);
+    tone(fxGain,at+.075,570,.19,.1,'sine');
+  }
+  if(name==='crystal'){
+    [523.25,659.25,783.99,1046.5].forEach((hz,index)=>{
+      tone(fxGain,at+index*.115,hz,.56,.14,'sine');
+    });
+  }
+  if(name==='depth-gear'){
+    grit(at,.40,.18,430);
+    tone(fxGain,at,122,.34,.17,'triangle',72);
+  }
+  if(name==='depth-chime'){
+    [523,784,1175].forEach((hz,i)=>tone(fxGain,at+i*.09,hz,.53,.11,'sine'));
+  }
+  if(name==='depth-fall') tone(fxGain,at,205,.44,.17,'sine',56);
+  if(name==='depth-roar'){
+    grit(at,.24,.13,340);
+    tone(fxGain,at,81,.21,.15,'triangle',52);
+  }
+  if(name==='door'){
+    grit(at,.69,.29,570);
+    tone(fxGain,at,72,.63,.14,'triangle',43);
+  }
+}
+const explorePhrases=[[45,52,57,59],[41,48,53,57],[48,55,60,62],[43,50,55,57]];
+const rescuePhrase=[60,64,67,72,71,67,64,69,67,64,62,60];
+function frequency(note){return 440*Math.pow(2,(note-69)/12)}
+function updateMusic(){
+  if(!audio||audio.state!=='running') return;
+  const now=audio.currentTime;
+  const mode=stage===10&&finished?'rescue':stage;
+  if(mode!==previousNoteMode){
+    previousNoteMode=mode;
+    nextNote=now+.025;
+    musicStep=0;
+  }
+  if(!musicOn) return;
+  if(nextNote<now-.18) nextNote=now+.02;
+  while(nextNote<now+.16){
+    if(mode==='rescue'){
+      if(musicStep>=rescuePhrase.length) return;
+      const note=rescuePhrase[musicStep];
+      tone(musicGain,nextNote,frequency(note),.72,.28,'sine');
+      if(musicStep%3===0) tone(musicGain,nextNote,frequency(note-12),1.1,.17,'sine');
+      nextNote+=.43;
+    }else if(mode===2){
+      const line=[74,81,86,78,76,83,88,79,74,81,85,78,71,78,83,76];
+      const hz=frequency(line[musicStep%16]);tone(musicGain,nextNote,hz,.86,.14,'sine');
+      tone(musicGain,nextNote+.04,hz*2,.34,.044,'triangle');
+      if(musicStep%8===0)tone(musicGain,nextNote,hz/4,1.65,.17,'sine');
+      nextNote+=.32;
+    }else if(mode===3){
+      const notes=[50,0,57,62,0,55,0,60,48,0,55,60,0,53,58,0];
+      const n=notes[musicStep%16];if(n)tone(musicGain,nextNote,frequency(n),.29,.22,'triangle');
+      if(musicStep%4===0)tone(musicGain,nextNote,84,.2,.20,'sine',42);
+      nextNote+=.39;
+    }else if(mode===4){
+      const bass=[38,38,45,41,38,46,43,36];const n=bass[musicStep%8];
+      tone(musicGain,nextNote,frequency(n),.19,.22,'triangle');
+      if(musicStep%4!==1)tone(musicGain,nextNote,100,.16,.24,'sine',39);
+      if(musicStep%4===3)tone(musicGain,nextNote+.1,frequency(n+19),.25,.13,'triangle');
+      nextNote+=.258;
+    }else if(mode>=5&&mode<=7){
+      const note=[[43,50,55,46,50,58],[62,69,74,71,67,76],[36,43,38,46,41,48]][mode-5][musicStep%6];
+      const hz=frequency(note);
+      tone(musicGain,nextNote,hz,mode===6?.68:.32,.16,mode===6?'sine':'triangle');
+      if(musicStep%3===0) tone(musicGain,nextNote,hz/2,.63,.13,'sine');
+      nextNote+=mode===6?.44:mode===5?.34:.29;
+    }else{
+      const pattern=[0,2,1,3,2,1,3,1];
+      const chord=explorePhrases[Math.floor(musicStep/8)%explorePhrases.length];
+      const note=chord[pattern[musicStep%8]];
+      tone(musicGain,nextNote,frequency(note),1.23,.22,'sine');
+      if(musicStep%4===0) tone(musicGain,nextNote,frequency(chord[0]-12),2.1,.17,'sine');
+      nextNote+=.49;
+    }
+    musicStep++;
+  }
+}
+
+let dx=0,dy=0,joyId=null;
+function setJoy(e){
+  const r=joy.getBoundingClientRect();
+  let x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;
+  const length=Math.hypot(x,y);
+  if(length>46){x*=46/length;y*=46/length}
+  dx=x/46;dy=y/46;
+  nub.style.transform=`translate(${x}px,${y}px)`;
+}
+function endJoy(){
+  joyId=null;dx=dy=0;nub.style.transform='';
+}
+joy.addEventListener('pointerdown',e=>{
+  if(afterStory||finished||joyId!==null||e.button!==0) return;
+  joy.setPointerCapture(e.pointerId);
+  joyId=e.pointerId;
+  setJoy(e);
+});
+joy.addEventListener('pointermove',e=>{if(e.pointerId===joyId)setJoy(e)});
+for(const name of ['pointerup','pointercancel','lostpointercapture']){
+  joy.addEventListener(name,e=>{if(e.pointerId===joyId)endJoy()});
+}
+const keys = {};
+addEventListener('keydown',e=>{
+  if(afterStory||e.target===mirrorSlider) return;
+  const key=e.key.toLowerCase();
+  keys[key]=true;
+  if(key==='e' && stage===2 && !turnMirror.hidden) mirrorSlider.focus();
+});
+addEventListener('keyup',e=>{keys[e.key.toLowerCase()]=false});
+addEventListener('blur',resetInput);
+document.getElementById('restart').addEventListener('click',restartCurrentLevel);
+
+function circleHitsCrate(x,z,cx,cz) {
+  const dx=Math.max(0,Math.abs(x-cx)-crateHalf);
+  const dz=Math.max(0,Math.abs(z-cz)-crateHalf);
+  return dx*dx+dz*dz < heroRadius*heroRadius-1e-7;
+}
+
+function heroHitsPillar(x,z) {
+  const dx=Math.max(0,Math.abs(x-pillarX)-pillarHalfX);
+  const dz=Math.max(0,Math.abs(z-pillarZ)-pillarHalfZ);
+  return dx*dx+dz*dz < heroRadius*heroRadius-1e-7;
+}
+
+function crateCanOccupy(index,x,z,hx,hz) {
+  // Leave a lane around the arena edge so a player can push a crate back out.
+  const clearance = crateHalf + heroRadius + .12;
+  if (Math.abs(x) > wallLimits.x-clearance ||
+      z < wallLimits.zMin+clearance || z > wallLimits.zMax-clearance) return false;
+  if (circleHitsCrate(hx,hz,x,z)) return false;
+  if (Math.abs(x-pillarX)<pillarHalfX+crateHalf-1e-6 &&
+      Math.abs(z-pillarZ)<pillarHalfZ+crateHalf-1e-6) return false;
+  return !crates.some((other,i)=>i!==index &&
+    Math.abs(x-other.position.x)<crateHalf*2-1e-6 &&
+    Math.abs(z-other.position.z)<crateHalf*2-1e-6);
+}
+
+function lockCrateIfAligned(index,hx,hz) {
+  const c=crates[index], pad=pads[index];
+  if (solved[index] || Math.hypot(c.position.x-pad.x,c.position.z-pad.z)>.36 ||
+      !crateCanOccupy(index,pad.x,pad.z,hx,hz)) return;
+  c.position.set(pad.x,0,pad.z);
+  solved[index]=true;
+  rings[index].geometry.dispose();
+  rings[index].geometry=new THREE.TorusGeometry(.78,.084,7,32);
+  const count=solved.filter(Boolean).length;
+  progress.textContent=`能量机关：${count} / 3`;
+  if (count===3) {
+    doorOpen=true;
+    cue('door');
+    tip.textContent='大门已打开！进入石拱门，完成第一关。';
+    toast('三道能量锁解除！大门开启！');
+  } else {
+    toast('能量机关已激活！');
+    cue('plate');
+  }
+}
+
+function displaceCrate(index,dx,dz,hx,hz) {
+  const c=crates[index];
+  if (solved[index] || !crateCanOccupy(index,c.position.x+dx,c.position.z+dz,hx,hz)) return false;
+  c.position.x+=dx;
+  c.position.z+=dz;
+  lockCrateIfAligned(index,hx,hz);
+  return true;
+}
+
+// Small swept steps prevent tunneling even when a frame or skill moves far.
+function shoveCrate(index,dx,dz) {
+  const steps=Math.max(1,Math.ceil(Math.hypot(dx,dz)/.10));
+  let moved=false;
+  for(let i=0;i<steps;i++){
+    if(!displaceCrate(index,dx/steps,dz/steps,hero.position.x,hero.position.z)) break;
+    moved=true;
+  }
+  return moved;
+}
+
+function moveHeroStep(dx,dz, canPush=true) {
+  const pos=hero.position;
+  const x=THREE.MathUtils.clamp(pos.x+dx,-wallLimits.x,wallLimits.x);
+  const z=THREE.MathUtils.clamp(pos.z+dz,wallLimits.zMin,wallLimits.zMax);
+  dx=x-pos.x; dz=z-pos.z;
+  if (Math.hypot(dx,dz)<1e-6 || heroHitsPillar(x,z)) return 0;
+  const hits=[];
+  for(let i=0;i<crates.length;i++){
+    const c=crates[i].position;
+    if(circleHitsCrate(x,z,c.x,c.z)) hits.push(i);
+  }
+  if(hits.length) {
+    if(!canPush || hits.length!==1) return 0;
+    const index=hits[0];
+    const boxPos=crates[index].position;
+    // Grazing a side slides along the box. Only input into the contact pushes it.
+    const nx=boxPos.x-THREE.MathUtils.clamp(boxPos.x,pos.x-crateHalf,pos.x+crateHalf);
+    const nz=boxPos.z-THREE.MathUtils.clamp(boxPos.z,pos.z-crateHalf,pos.z+crateHalf);
+    if(dx*nx+dz*nz<=1e-7 || !displaceCrate(index,dx,dz,x,z)) return 0;
+    pos.set(x,0,z);
+    return 2;
+  }
+  pos.set(x,0,z);
+  return 1;
+}
+
+function moveHero(dx,dz) {
+  const steps=Math.max(1,Math.ceil(Math.hypot(dx,dz)/.085));
+  let movement=0;
+  for(let i=0;i<steps;i++){
+    const x=dx/steps,z=dz/steps;
+    const step=moveHeroStep(x,z);
+    if(step){movement=Math.max(movement,step);continue}
+    // Slide along a blocking crate without changing the direction it was being pushed.
+    movement=Math.max(movement,moveHeroStep(x,0,false),moveHeroStep(0,z,false));
+  }
+  return movement;
+}
+// V4 gameplay skills: flame activates distant crate, shield protects from hazard, slam moves nearby crates.
+const status=document.getElementById('skill-status');
+const cd={flame:0,shield:0,slam:0};
+let shieldUntil=0,wardCharges=0;
+const effects = [];
+
+function visual(geometry, color, opacity = 1, additive = true) {
+  return new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
+    color, opacity, transparent: true, depthWrite: false, side: THREE.DoubleSide,
+    blending: additive ? THREE.AdditiveBlending : THREE.NormalBlending,
+    toneMapped: false
+  }));
+}
+
+function animateEffect(group, start, duration, update) {
+  scene.add(group);
+  effects.push({group, start, duration, update});
+}
+
+function updateEffects(now) {
+  for (let i = effects.length - 1; i >= 0; i--) {
+    const entry = effects[i];
+    const age = (now - entry.start) / entry.duration;
+    if (age < 1) {
+      entry.update(Math.max(age, 0));
+      continue;
+    }
+    scene.remove(entry.group);
+    entry.group.traverse(object => {
+      if (!object.isMesh) return;
+      object.geometry.dispose();
+      object.material.dispose();
+    });
+    effects.splice(i, 1);
+  }
+}
+
+function flameEffect(now) {
+  const group = new THREE.Group();
+  group.position.copy(hero.position);
+  group.position.y += 1.5;
+  group.rotation.y = hero.rotation.y;
+  const trail = [];
+  for (let i = 0; i < 9; i++) {
+    const flame = visual(new THREE.IcosahedronGeometry(.42, 1), i < 2 ? 0xe4ffff : 0x1a81ff);
+    group.add(flame);
+    trail.push(flame);
+  }
+  const light = new THREE.PointLight(0x247dff, 5, 6, 2);
+  group.add(light);
+  animateEffect(group, now, 1080, age => {
+    const distance = 1.1 + age * 8.2;
+    light.position.set(0, 0, -distance);
+    light.intensity = 7 * (1 - age);
+    for (let i = 0; i < trail.length; i++) {
+      const flame = trail[i];
+      const fade = 1 - i / trail.length;
+      flame.position.set(Math.sin(i * 1.8 + age * 15) * i * .025,
+        Math.cos(i + age * 13) * i * .018, -Math.max(.55, distance - i * .38));
+      flame.scale.set(fade, fade * (1.05 + .42 * Math.sin(age * 27 + i)), fade * 1.65);
+      flame.material.opacity = fade * Math.min(1, (1 - age) * 3);
+    }
+  });
+}
+
+function wardEffect(now) {
+  const group = new THREE.Group();
+  wardCharges=3;
+  shieldUntil=now+5000;
+  for(let i=0;i<9;i++){
+    const rock=new THREE.Mesh(new THREE.IcosahedronGeometry(.26+(i%3)*.04,0),
+      new THREE.MeshStandardMaterial({color:0x506071,emissive:0x16304a,roughness:.84,metalness:.19,flatShading:true}));
+    rock.scale.set(.68,1.6,.85);
+    group.add(rock);
+    const seam=visual(new THREE.TorusGeometry(.22,.023,4,7),0x75dfff);
+    rock.add(seam);seam.rotation.x=.82;
+  }
+  animateEffect(group,now,5000,age=>{
+    group.position.copy(hero.position);
+    group.children.forEach((rock,i)=>{
+      rock.visible=Math.floor(i/3)<wardCharges && shieldUntil===now+5000;
+      const a=age*10+i*2.39996;
+      rock.position.set(Math.cos(a)*1.55,1.48+.67*Math.sin(a+i*.8),Math.sin(a)*1.55);
+      rock.rotation.set(a*.6,a,-a*.41);
+    });
+  });
+
+}
+
+function slamEffect(now) {
+  const group = new THREE.Group();
+  group.position.copy(hero.position);
+  group.position.y = .11;
+  const waves = [];
+  for (let i = 0; i < 3; i++) {
+    const ring = visual(new THREE.TorusGeometry(1, .042, 8, 60), i === 0 ? 0xb5faff : 0x208dff);
+    ring.rotation.x = -Math.PI / 2;
+    group.add(ring);
+    waves.push(ring);
+  }
+  const debris = [];
+  for (let i = 0; i < 10; i++) {
+    const chip = visual(new THREE.DodecahedronGeometry(.16, 0), i % 2 ? 0x679de3 : 0x3d536f, 1, false);
+    group.add(chip);
+    debris.push(chip);
+  }
+  // Jagged fractures propagate over the floor; hot cores cool to embers as rubble falls.
+  const cracks=[];
+  for(let i=0;i<14;i++){
+    const a=i*2.39996,points=[];
+    for(let j=0;j<=5;j++){
+      const angle=a+.14*Math.sin(i*7+j*3.2),r=.16+j*(.45+.045*(i%4));
+      points.push(new THREE.Vector3(Math.cos(angle)*r,.018,Math.sin(angle)*r));
+    }
+    const line=visual(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points),12,.035,4,false),i%3?0xff8145:0xffe6ad);
+    group.add(line);cracks.push(line);
+  }
+  const flash=new THREE.PointLight(0xffb772,0,7,2);group.add(flash);flash.position.y=.9;
+  animateEffect(group, now, 1250, age => {
+    const impact = Math.max(0, (age - .22) / .78);
+    const spread=Math.min(1,.05+impact*4);
+    cracks.forEach(line=>{line.scale.set(spread,1,spread);line.material.opacity=impact>0?Math.pow(1-impact,.72):0});
+    flash.intensity=impact>0?19*Math.exp(-impact*9):age*8;
+    waves.forEach((ring, i) => {
+      const wave = Math.max(0, impact - .12 * i);
+      ring.scale.setScalar(.45 + wave * 6.1);
+      ring.material.opacity = wave > 0 ? (1 - wave) * .94 : 0;
+    });
+    debris.forEach((chip, i) => {
+      const angle = i * Math.PI / 5;
+      const distance = .72 + impact * (2.35 + i % 3 * .18);
+      chip.position.set(Math.cos(angle) * distance, Math.sin(Math.PI * impact) * (1.1+i%3*.3),
+        Math.sin(angle) * distance);
+      chip.rotation.set(impact * 7 + i, impact * 5, i);
+      chip.material.opacity = impact > 0 ? 1 - impact : 0;
+    });
+  });
+}
+
+const guardRoom=new THREE.Group();
+scene.add(guardRoom);
+guardRoom.visible=false;
+// Share the wall geometry and collision clearances for patrol, charge and knockback.
+const guardBounds={x:arena.wallX-1.63,minZ:arena.gateZ+1.9,maxZ:arena.maxZ};
+const guardPillarRows=[-86.5,-92.1,-98,-103.6];
+const guardPillarClearance=arena.wallX-2.14;
+const guardSeparation=1.75;
+const playerGuardSeparation=1.28;
+const knockbackDuration=.30;
+const knockbackDistance=2.25;
+const guardStone=mat(0x50586e,.30);
+const guardTrim=mat(0xa27657,.53);
+const hostileGlow=new THREE.MeshBasicMaterial({color:0xff8145,toneMapped:false});
+const dormantCore=new THREE.MeshBasicMaterial({color:0x734e72,toneMapped:false});
+const stunGlow=new THREE.MeshBasicMaterial({color:0xa7efff,toneMapped:false});
+const wardMark=new THREE.MeshBasicMaterial({color:0xe8b377,toneMapped:false});
+const hpMax=5;
+let heroHp=hpMax,hitGrace=0,guardOpen=false;
+const guards=[];
+const aimMarker=new THREE.Mesh(new THREE.ConeGeometry(.16,.38,3),stunGlow);
+aimMarker.rotation.x=-Math.PI/2;
+aimMarker.position.set(0,.082,-1.33);
+aimMarker.visible=false;
+hero.add(aimMarker);
+const encounter=document.getElementById('encounter');
+const encounterTitle=document.getElementById('encounter-title');
+const encounterText=document.getElementById('encounter-text');
+const encounterButton=document.getElementById('encounter-button');
+const encounterContinue=document.getElementById('encounter-continue');
+const depthAction=document.getElementById('depth-action');
+depthAction.addEventListener('click',onDepthAction);
+addEventListener('keydown',event=>{
+  if(event.key.toLowerCase()==='e'&&!event.repeat&&event.target.tagName!=='INPUT') onDepthAction();
+});
+encounterContinue.addEventListener('click',()=>{
+  const level=levels[stage];
+  if(!finished||!level.next||encounter.hidden) return;
+  encounter.hidden=true;
+  playChapter(level.chapter,()=>enterLevel(level.next));
+});
+
+function arenaBox(w,h,d,material,x,y,z){
+  const piece=box(w,h,d,material,guardRoom,x,y,z);
+  piece.castShadow=false;
+  return piece;
+}
+arenaBox(2*arena.wallX+.3,.25,arena.depth,gravityStone,0,-.14,arena.centerZ);
+for(let x=-8;x<=8;x+=2){
+  for(let z=-106.7;z<=-84.5;z+=2) arenaBox(1.94,.05,1.94,(Math.round(x+z)%4===0)?gravityTrim:gravityStone,x,-.015,z);
+}
+for(const side of [-1,1]){
+  arenaBox(.58,1.05,arena.depth,gravityStone,side*arena.wallX,.525,arena.centerZ);
+  arenaBox(.11,.05,arena.depth-1,guardTrim,side*(arena.wallX-.91),.034,arena.centerZ);
+  const wing=arena.wallX-1.93;
+  arenaBox(wing,2.57,.48,gravityStone,side*(1.93+wing/2),1.285,arena.gateZ-.04);
+  arenaBox(.72,3.62,.92,gravityEdge,side*1.68,1.81,arena.gateZ);
+  for(const z of guardPillarRows){
+    arenaBox(.93,.24,.98,guardTrim,side*(arena.wallX-.35),.12,z);
+    arenaBox(.68,2.92,.66,guardStone,side*(arena.wallX-.35),1.54,z);
+    arenaBox(.78,.13,.77,hostileGlow,side*(arena.wallX-.35),3.04,z);
+  }
+}
+arenaBox(4.23,.37,.90,guardTrim,0,3.57,arena.gateZ);
+for(const radius of [2.18,2.42,3.94]){
+  const sigil=new THREE.Mesh(new THREE.TorusGeometry(radius,.023,6,64),wardMark);
+  sigil.rotation.x=-Math.PI/2;
+  sigil.position.set(0,.021,arena.centerZ);
+  guardRoom.add(sigil);
+}
+const firstSeal=new THREE.Mesh(new THREE.BoxGeometry(2.66,2.93,.35),gravityStone);
+firstSeal.position.set(0,1.48,arena.gateZ);
+guardRoom.add(firstSeal);
+const guardExit=new THREE.Mesh(new THREE.CircleGeometry(.86,32),wardMark);
+guardExit.rotation.x=-Math.PI/2;
+guardExit.position.set(0,.046,arena.gateZ+.87);
+guardExit.visible=false;
+guardRoom.add(guardExit);
+guardRoom.remove(firstSeal,guardExit);
+mergeByMaterial(guardRoom,true,false);
+guardRoom.add(firstSeal,guardExit);
+
+// Sculpted profiles face local +Z. Curves taper along their length like shell, tendon and horn.
+const creatureNames=['棘冠巡瞳','紫幕翼魇','四瞳星葵','十字镰骸','三星刃蛛','灯颚长骸'];
+function sculptCreature(kind){
+  const group=new THREE.Group(), tau=Math.PI*2;
+  const surface=(color,metalness,roughness,emissive=0)=>new THREE.MeshStandardMaterial({color,metalness,roughness,emissive,side:THREE.DoubleSide});
+  const bone=surface(0xc0a093,.5,.38),shell=surface(0x493855,.6,.36),flesh=surface(0x632738,.16,.49);
+  const ivory=surface(0xf3d4aa,.21,.3),iris=surface(kind===2?0xffbf48:0xee7554,.35,.23,0x66301a);
+  const dark=surface(0x140e1c,.27,.24),silk=surface(0x7350a4,.38,.36),light=surface(0xa6ccec,.4,.22,0x324860);
+  for(const material of [bone,shell,flesh]){material.bumpMap=stoneMap;material.bumpScale=material===flesh?.009:.016}
+  function mesh(g,m){const o=new THREE.Mesh(g,m);group.add(o);return o}
+  function oval(x,y,z,w,h,d,m){const o=mesh(new THREE.SphereGeometry(1,18,12),m);o.position.set(x,y,z);o.scale.set(w,h,d);return o}
+  function strand(points,widths,m,sides=8){
+    const curve=new THREE.CatmullRomCurve3(points.map(p=>new THREE.Vector3(...p)));
+    const steps=(points.length-1)*6;
+    const geo=new THREE.TubeGeometry(curve,steps,1,sides,false);
+    const pos=geo.attributes.position,vert=new THREE.Vector3();
+    for(let i=0;i<=steps;i++){
+      const t=i/steps,c=curve.getPointAt(t),u=t*(widths.length-1),j=Math.min(Math.floor(u),widths.length-2);
+      const r=THREE.MathUtils.lerp(widths[j],widths[j+1],u-j);
+      for(let k=0;k<=sides;k++){const n=i*(sides+1)+k;vert.fromBufferAttribute(pos,n).sub(c).multiplyScalar(r).add(c);pos.setXYZ(n,vert.x,vert.y,vert.z)}
+    }
+    geo.computeVertexNormals();mesh(geo,m);
+  }
+  function eye(x,y,z,r,slit=false){
+    oval(x,y,z,r,r*(slit?.72:1),r*.83,ivory);
+    oval(x,y,z+r*.72,r*.63,r*.57,r*.22,iris);
+    oval(x,y,z+r*.88,r*(slit?.11:.29),r*.42,r*.10,dark);
+    oval(x-r*.15,y+r*.21,z+r*.96,r*.11,r*.11,r*.06,light);
+  }
+  function maw(x,y,z,w,h){
+    oval(x,y,z,w,h,.14,dark);
+    for(let i=0;i<24;i++){
+      const a=i*tau/24,c=Math.cos(a),s=Math.sin(a);
+      strand([[x+w*c,y+h*s,z],[x+w*.92*c,y+h*.89*s,z+.1],[x+w*.68*c,y+h*.63*s,z+.08]],[.043,.032,.001],i%2?ivory:bone,5);
+    }
+  }
+  function shroud(top,bottom,width){
+    for(let j=0;j<18;j++){
+      const a=j*tau/18,c=Math.cos(a),s=Math.sin(a);
+      strand([[.25*c,top,.2*s],[width*.65*c,(top+bottom)*.56,.28*s],[width*c,bottom+.10*Math.sin(a*3),.38*s+.10]],[.12,.075,.003],j%3?shell:flesh);
+    }
+  }
+  function skull(y){
+    oval(0,y,0,.23,.26,.18,bone);
+    for(const s of [-1,1]){
+      oval(.1*s,y+.015,.157,.079,.084,.042,dark);
+      strand([[.14*s,y+.11,0],[.25*s,y+.25,-.04],[.28*s,y+.46,-.06]],[.088,.048,.001],bone);
+      for(let j=0;j<3;j++)oval(s*(.03+.042*j),y-.15,.132,.021,.055,.025,ivory);
+    }
+  }
+  if(kind===0){
+    shroud(1.52,.08,.57);oval(0,1.64,0,.46,.6,.27,shell);maw(0,1.6,.24,.21,.23);
+    maw(0,2.25,0,.57,.29);
+    for(const s of [-1,1]){
+      for(let j=0;j<4;j++)strand([[s*.20,1.18+j*.17,.19],[s*(.46+.04*j),1.35+j*.17,.08],[s*.66,1.60+j*.19,-.07]],[.10,.069,.002],bone);
+      strand([[s*.25,1.2,.03],[s*.73,.81,.13],[s*.86,1.04,.22]],[.06,.032,.015],flesh);eye(s*.86,1.04,.22,.14);
+    }
+    strand([[-.3,2.33,0],[-.23,2.78,-.05],[.38,2.95,.05]],[.09,.052,.022],flesh);eye(.38,2.95,.05,.19);
+  }else if(kind===1){
+    skull(2.26);shroud(1.99,.06,.53);
+    for(const s of [-1,1]){
+      const verts=[],idx=[];
+      for(let i=0;i<=16;i++)for(let j=0;j<=8;j++){
+        const u=i/16,v=j/8;verts.push(s*(.1+u*(1.25+.19*v)),(1-v)*(1.96+.76*u*u)+v*(.09+.62*u)+.08*Math.sin(6*u),.19*Math.sin(Math.PI*v)*Math.sin(u*12)-.17*u);
+        const n=i*9+j;if(i&&j)idx.push(n-10,n-1,n,n-10,n,n-9);
+      }
+      const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));geo.setIndex(idx);geo.computeVertexNormals();mesh(geo,silk);
+      strand([[.1*s,1.9,0],[.83*s,2.25,-.12],[1.34*s,2.75,-.15],[1.58*s,2.71,0]],[.083,.06,.036,.002],bone);
+      for(let j=1;j<=8;j++){const u=j/8;strand([[s*(.1+1.25*u),1.96+.76*u*u,-.17*u],[s*(.1+1.34*u),1.15+.5*u,.08],[s*(.1+1.44*u),.09+.62*u,-.17*u]],[.028,.016,.002],shell,5)}
+      eye(s*.99,1.04,.13,.17);
+    }
+  }else if(kind===2){
+    maw(0,1.55,0,.33,.32);
+    for(const x of [-1,1])for(const y of [-1,1]){
+      for(let j=0;j<5;j++)strand([[x*.19,1.55+y*.11,j*.034],[x*.54,1.55+y*(.25+j*.055),-.08],[x*.91,1.55+y*.58,.05]],[.065,.08,.12],j%2?shell:bone);
+      oval(x*.93,1.55+y*.61,.01,.36,.29,.25,shell);eye(x*.94,1.55+y*.6,.16,.23,true);
+      strand([[x*.45,1.55+y*.2,-.04],[x*.85,1.55+y*.37,-.18],[x*1.38,1.55+y*.15,-.22]],[.055,.019,.001],flesh);
+    }
+  }else if(kind===3){
+    skull(2.45);shroud(1.65,.03,.57);oval(0,1.87,0,.38,.45,.21,shell);
+    for(const s of [-1,1]){
+      oval(.39*s,2.11,0,.29,.17,.23,bone);eye(.43*s,2.13,.18,.088);
+      strand([[.46*s,2.09,0],[.62*s,1.72,0],[.81*s,1.41,.12],[1.02*s,.61,.32]],[.15,.074,.12,.003],bone);
+      for(let j=0;j<4;j++)strand([[.04*s,1.99-j*.14,.19],[.22*s,1.93-j*.14,.22],[.33*s,1.81-j*.14,.09]],[.036,.057,.002],bone);
+    }
+    strand([[0,2.1,.23],[0,1.93,.26],[0,1.73,.24]],[.038,.044,.023],ivory);
+    strand([[-.13,1.98,.24],[0,1.98,.27],[.13,1.98,.24]],[.024,.035,.024],ivory);
+  }else if(kind===4){
+    oval(0,1.77,0,.43,.3,.27,shell);
+    for(let i=0;i<3;i++){
+      const s=i-1;strand([[s*.08,1.93,0],[s*.17,2.15,0],[s*.32,2.57-.18*s*s,.05]],[.09,.041,.03],bone);
+      eye(s*.32,2.57-.18*s*s,.05,.154);
+    }
+    for(const s of [-1,1])for(const z of [-1,1]){
+      strand([[s*.27,1.82,z*.11],[s*.55,1.46,z*.24],[s*.62,.69,z*.32],[s*.72,.03,z*.37]],[.145,.09,.052,.004],bone);
+    }
+    strand([[.32,1.76,-.04],[.7,2.11,0],[.87,2.38,.05],[1.04,1.97,.12],[.96,1.65,.17]],[.053,.036,.09,.062,.002],ivory);
+  }else{
+    shroud(1.54,.04,.46);
+    for(const s of [-1,1]){
+      strand([[s*.15,1.75,.05],[s*.38,1.64,0],[s*.56,1.12,0],[s*.67,.62,.11]],[.12,.086,.038,.002],bone);
+      strand([[s*.16,1.45,0],[s*.25,2.24,-.09],[.06+s*.18,2.67,-.05],[.47,2.71,.01]],[.13,.09,.078,.11],bone);
+    }
+    oval(.51,2.67,.04,.38,.14,.23,bone);maw(.52,2.48,.04,.29,.2);eye(.52,2.49,.21,.095); 
+  }
+  mergeByMaterial(group,true,true);group.name=creatureNames[kind];return group;
+}
+
+function makeGuard(x,z,delay){
+  const body=new THREE.Group();
+  guardRoom.add(body);
+  const orb=new THREE.Group();
+  body.add(orb);
+  const jewel=new THREE.Mesh(new THREE.OctahedronGeometry(.085),dormantCore);
+  jewel.position.set(0,2.52,.04);
+  body.add(jewel);
+  const pips=Array.from({length:3},(_,i)=>{
+    const pip=new THREE.Mesh(new THREE.BoxGeometry(.23,.086,.082),hostileGlow);
+    pip.position.set((i-1)*.31,2.68,.22);
+    body.add(pip);
+    return pip;
+  });
+  const warning=new THREE.Group();
+  guardRoom.add(warning);
+  const warnMaterial=new THREE.MeshBasicMaterial({
+    color:0xff6e38,transparent:true,opacity:.34,depthWrite:false,toneMapped:false
+  });
+  const path=new THREE.Mesh(new THREE.BoxGeometry(1.29,.027,5.3),warnMaterial);
+  path.position.set(0,.04,2.65);
+  warning.add(path);
+  const lead=new THREE.Mesh(new THREE.TorusGeometry(.79,.047,8,36),hostileGlow);
+  lead.rotation.x=-Math.PI/2;
+  lead.position.y=.09;
+  warning.add(lead);
+  return {body,orb,jewel,pips,warning,warnMaterial,x,z,delay,hp:3,mode:'idle',until:0,vx:0,vz:0,spent:false,knockback:null};
+}
+guards.push(makeGuard(-3.5,arena.centerZ+.6,1600),makeGuard(3.5,arena.centerZ-3.7,2700));
+
+const pairPicker=document.getElementById('pair');
+const sculptures=new Map();
+function selectPair(){
+  const pair=Number(pairPicker.value)||0;
+  guards.forEach((guard,side)=>{
+    const kind=pair*2+side;
+    if(!sculptures.has(kind)) sculptures.set(kind,sculptCreature(kind));
+    const model=sculptures.get(kind);
+    guard.orb.clear();guard.orb.add(model);model.scale.setScalar(.83);
+    guard.orb.position.y=.06;
+  });
+}
+pairPicker.addEventListener('change',restartCurrentLevel);
+const shakeAnimations=new Set();
+function haptic(pattern){
+  const canvas=renderer.domElement;
+  if(canvas.animate && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches){
+    const shift=Array.isArray(pattern)?3:1;
+    const animation=canvas.animate([{transform:'translateX(0)'},{transform:'translateX('+shift+'px)'},{transform:'translateX(-'+shift+'px)'},{transform:'translateX(0)'}],{duration:140});
+    shakeAnimations.add(animation);
+    animation.onfinish=animation.oncancel=()=>shakeAnimations.delete(animation);
+  }
+  if(typeof navigator!=='undefined' && typeof navigator.vibrate==='function') navigator.vibrate(pattern);
+}
+function refreshHealth(){
+  document.getElementById('hearts').setAttribute('aria-valuenow',heroHp);
+  for(let i=0;i<hpMax;i++) document.getElementById('hp'+i).className=i<heroHp?'':'empty';
+}
+function showGuardStatus(){
+  const remaining=guards.filter(guard=>guard.hp>0).length;
+  progress.textContent=`第 4 / 10 关 · 守卫 ${remaining}/2 · 生命 ${heroHp}/${hpMax}`;
+}
+
+function resetGuards(now){
+  heroHp=hpMax;refreshHealth();
+  guardOpen=false;
+  hitGrace=now+1600;
+  firstSeal.position.y=1.48;
+  guardExit.visible=false;
+  hero.position.set(0,0,arena.maxZ-1.5);
+  hero.rotation.y=0;
+  for(const guard of guards){
+    guard.hp=3;
+    guard.mode='idle';
+    guard.until=now+guard.delay;
+    guard.spent=false;
+    guard.knockback=null;
+    guard.vx=guard.vz=0;
+    guard.body.position.set(guard.x,0,guard.z);
+    guard.body.rotation.y=0;
+    guard.body.visible=true;
+    guard.warning.visible=false;
+    guard.jewel.material=dormantCore;
+    for(const pip of guard.pips) pip.visible=true;
+  }
+  showGuardStatus();
+  tip.textContent='面向守卫放暗焰。看到橙色冲撞预警就侧移或开石甲，靠近可用震地。';
+}
+
+function enterGuardRoom(restarting){
+  pairPicker.hidden=false;
+  selectPair();
+  guardRoom.visible=true;
+  aimMarker.visible=true;
+  skills.style.display='';
+  resetGuards(performance.now());
+  if(!restarting) toast('第四关 · 遗迹守卫');
+}
+
+function moveInGuardRoom(dx,dz){
+  const p=hero.position;
+  const x=THREE.MathUtils.clamp(p.x+dx,-arena.x,arena.x);
+  let z=THREE.MathUtils.clamp(p.z+dz,arena.minZ,arena.maxZ);
+  const threshold=arena.gateZ+1.72;
+  if(z<threshold&&(!guardOpen||firstSeal.position.y<4||Math.abs(x)>1.16)) z=threshold;
+  const canMove=(toX,toZ)=>guards.every(guard=>{
+    if(!guard.hp) return true;
+    const other=guard.body.position;
+    const before=Math.hypot(p.x-other.x,p.z-other.z);
+    const after=Math.hypot(toX-other.x,toZ-other.z);
+    // An existing overlap must allow movement that makes it shallower.
+    return after>=Math.min(before,playerGuardSeparation)-1e-6;
+  });
+  const oldX=p.x,oldZ=p.z;
+  if(canMove(x,z)) p.set(x,0,z);
+  else{
+    if(canMove(x,p.z)) p.x=x;
+    if(canMove(p.x,z)) p.z=z;
+  }
+  return Math.hypot(p.x-oldX,p.z-oldZ)>1e-5?1:0;
+}
+
+function moveGuard(guard,dx,dz){
+  const p=guard.body.position;
+  const x=THREE.MathUtils.clamp(p.x+dx,-guardBounds.x,guardBounds.x);
+  const z=THREE.MathUtils.clamp(p.z+dz,guardBounds.minZ,guardBounds.maxZ);
+  const tryMove=(toX,toZ)=>{
+    const hx=p.x-hero.position.x,hz=p.z-hero.position.z;
+    const startSq=hx*hx+hz*hz;
+    const radiusSq=playerGuardSeparation**2;
+    const stepX=toX-p.x,stepZ=toZ-p.z;
+    const stepSq=stepX*stepX+stepZ*stepZ;
+    if(stepSq<1e-12) return true;
+    const projection=hx*stepX+hz*stepZ;
+    if(startSq<radiusSq-1e-6){
+      // If already overlapping, let the guard move out without sinking deeper.
+      if(startSq+2*projection+stepSq<startSq-1e-6) return false;
+    }else if(projection<0){
+      // Stop at player contact, still within the charge's 1.30-unit hit radius.
+      const hit=projection*projection-stepSq*Math.max(0,startSq-radiusSq);
+      if(hit>0){
+        const fraction=Math.min(1,(-projection-Math.sqrt(hit))/stepSq);
+        if(fraction<=0) return false;
+        toX=p.x+stepX*fraction;
+        toZ=p.z+stepZ*fraction;
+      }
+    }
+    if(Math.abs(toX)>guardPillarClearance&&guardPillarRows.some(row=>Math.abs(toZ-row)<1.81)) return false;
+    for(const other of guards){
+      if(other===guard||!other.hp) continue;
+      const q=other.body.position;
+      const before=Math.hypot(p.x-q.x,p.z-q.z);
+      if(Math.hypot(toX-q.x,toZ-q.z)<Math.min(before,guardSeparation)-1e-6) return false;
+    }
+    p.set(toX,0,toZ);
+    return true;
+  };
+  if(!tryMove(x,z)){
+    tryMove(x,p.z);
+    tryMove(p.x,z);
+  }
+}
+
+function separateGuards(){
+  const [first,second]=guards;
+  if(!first.hp||!second.hp) return;
+  const a=first.body.position,b=second.body.position;
+  const x=b.x-a.x,z=b.z-a.z;
+  const distance=Math.hypot(x,z);
+  if(distance>=guardSeparation) return;
+  const shift=(guardSeparation-distance)/2;
+  const dx=distance>1e-6?x/distance*shift:shift;
+  const dz=distance>1e-6?z/distance*shift:0;
+  moveGuard(first,-dx,-dz);
+  moveGuard(second,dx,dz);
+}
+
+function knockGuardBack(guard,index){
+  if(!guard.hp) return;
+  const p=guard.body.position;
+  let dx=p.x-hero.position.x,dz=p.z-hero.position.z;
+  const length=Math.hypot(dx,dz);
+  if(length<1e-4){
+    const side=index===0?-1:1;
+    dx=side*Math.cos(hero.rotation.y);
+    dz=-side*Math.sin(hero.rotation.y);
+  }else{
+    dx/=length;dz/=length;
+  }
+  guard.knockback={dx,dz,elapsed:0};
+}
+
+function updateGuardKnockback(guard,dt){
+  const motion=guard.knockback;
+  if(!motion) return;
+  const remaining=1-motion.elapsed/knockbackDuration;
+  motion.elapsed=Math.min(knockbackDuration,motion.elapsed+dt);
+  const nextRemaining=1-motion.elapsed/knockbackDuration;
+  const distance=knockbackDistance*(remaining**3-nextRemaining**3);
+  // Substeps keep even the fastest part of the impulse inside collision bounds.
+  const steps=Math.max(1,Math.ceil(distance/.12));
+  for(let i=0;i<steps;i++) moveGuard(guard,motion.dx*distance/steps,motion.dz*distance/steps);
+  if(motion.elapsed===knockbackDuration){
+    guard.knockback=null;
+  }
+}
+
+function hitGuard(guard,damage,now,stun){
+  if(!guard.hp) return;
+  guard.hp=Math.max(0,guard.hp-damage);
+  guard.mode='stun';
+  guard.until=now+stun;
+  guard.warning.visible=false;
+  for(const [index,pip] of guard.pips.entries()) pip.visible=index<guard.hp;
+  guard.body.visible=guard.hp>0;
+  if(!guard.hp){
+    guard.knockback=null;
+    cue('crystal');
+  }
+  showGuardStatus();
+  if(guards.every(g=>!g.hp)){
+    guardOpen=true;
+    guardExit.visible=true;
+    firstSeal.position.y=Math.max(firstSeal.position.y,1.48);
+    tip.textContent='守卫已击退。走到石门前，查看第四关结算。';
+    cue('door');
+    toast('守卫熄火，石门开启！');
+  }
+}
+
+function guardPanel(title,text,button,continueLabel){
+  encounterContinue.hidden=!continueLabel;
+  if(continueLabel) encounterContinue.textContent=continueLabel;
+  encounterTitle.textContent=title;
+  encounterText.textContent=text;
+  encounterButton.textContent=button;
+  encounter.hidden=false;
+  encounterButton.focus();
+}
+encounterButton.addEventListener('click',restartCurrentLevel);
+
+function useGuardSkill(type,now){
+  if(type==='shield'){
+    
+    wardEffect(now);
+    toast('岩甲环绕 · 五秒内可格挡三次');
+    return;
+  }
+  if(type==='slam'){
+    slamEffect(now);
+    let hit=0;
+    for(const [index,guard] of guards.entries()){
+      if(guard.hp&&hero.position.distanceTo(guard.body.position)<3.75){
+        hitGuard(guard,1,now,1800);
+        knockGuardBack(guard,index);
+        hit++;
+      }
+    }
+    if(!guardOpen) toast(hit?'守卫被震晕！':'靠近守卫再用震地。');
+    return;
+  }
+  flameEffect(now);
+  const forwardX=-Math.sin(hero.rotation.y);
+  const forwardZ=-Math.cos(hero.rotation.y);
+  let target=null,closest=7.15;
+  for(const guard of guards){
+    if(!guard.hp) continue;
+    const x=guard.body.position.x-hero.position.x;
+    const z=guard.body.position.z-hero.position.z;
+    const ahead=x*forwardX+z*forwardZ;
+    if(ahead>.23&&ahead<closest&&Math.abs(x*forwardZ-z*forwardX)<1.10){
+      target=guard;
+      closest=ahead;
+    }
+  }
+  if(target) hitGuard(target,1,now,530);
+  if(!guardOpen) toast(target?'暗焰命中守卫！':'转向守卫，再放暗焰。');
+}
+
+function updateGuardRoom(dt,now){
+  separateGuards();
+  for(const guard of guards){
+    if(!guard.hp) continue;
+    updateGuardKnockback(guard,dt);
+    const p=guard.body.position;
+    const dx=hero.position.x-p.x,dz=hero.position.z-p.z;
+    const distance=Math.hypot(dx,dz);
+    guard.orb.position.y=.08+Math.sin(now*.004+p.x)*.08;
+    if(guard.mode==='windup'){
+      guard.warning.position.copy(p);
+      guard.warnMaterial.opacity=.25+Math.sin(now*.015)*.115;
+      if(now>=guard.until){
+        guard.mode='charge';
+        guard.until=now+550;
+        guard.spent=false;
+        guard.warning.visible=false;
+      }
+    }else if(guard.mode==='charge'){
+      moveGuard(guard,guard.vx*8.6*dt,guard.vz*8.6*dt);
+      if(!guard.spent&&Math.hypot(hero.position.x-p.x,hero.position.z-p.z)<1.30){
+        guard.spent=true;
+        if(now<shieldUntil && wardCharges>0){
+          if(--wardCharges===0) shieldUntil=0;
+          haptic([20,30,35]);
+          hitGuard(guard,1,now,1450);
+          cue('impact');
+          if(!guardOpen) toast('石甲挡住冲撞，守卫受到反震！');
+        }else if(now>=hitGrace){
+          heroHp--;refreshHealth();haptic([65,35,65]);
+          hitGrace=now+1000;
+          cue('impact');
+          showGuardStatus();
+          if(!heroHp){
+            failLevel(stage);
+            return;
+          }
+        }
+      }
+      if(guard.mode==='charge'&&now>=guard.until){
+        guard.mode='idle';
+        guard.until=now+1250;
+      }
+    }else if(guard.mode==='stun'){
+      if(now>=guard.until){
+        guard.mode='idle';
+        guard.until=now+700;
+      }
+    }else if(distance>.001){
+      guard.body.rotation.y=Math.atan2(dx,dz);
+      if(distance>3.8){
+        moveGuard(guard,dx/distance*dt*1.48,dz/distance*dt*1.48);
+      }else if(now>=guard.until){
+        guard.vx=dx/distance;
+        guard.vz=dz/distance;
+        guard.mode='windup';
+        guard.until=now+780;
+        guard.warning.position.set(p.x,0,p.z);
+        guard.warning.rotation.y=guard.body.rotation.y;
+        guard.warning.visible=true;
+      }
+    }
+    guard.jewel.material=guard.mode==='stun'?stunGlow:
+      guard.mode==='windup'||guard.mode==='charge'?hostileGlow:dormantCore;
+  }
+  if(guardOpen){
+    firstSeal.position.y=Math.min(4.6,firstSeal.position.y+dt*2.85);
+    if(firstSeal.position.y>=4&&hero.position.z<arena.gateZ+1.03&&Math.abs(hero.position.x)<1.16){
+      completeLevel(stage);
+    }
+  }
+}
+
+function useSkill(type){
+ if(afterStory) return;
+ const now=performance.now();if((stage!==1&&stage!==4&&stage!==7)||finished){toast('此处无法施放技能');return}
+ if(now<cd[type]){toast('技能冷却中');return}
+ cd[type]=now+((stage===4||stage===7)?{flame:1850,shield:6800,slam:3300}:{flame:3800,shield:6500,slam:5000})[type];
+ haptic(type==='slam'?[35,35,85]:type==='shield'?30:18);
+ playMotion({flame:'Flame', shield:'Shield', slam:'Slam'}[type], true);
+ if(stage===4){useGuardSkill(type,now);return}
+ if(stage===7){useNestSkill(type,now);return}
+ if(type==='shield'){wardEffect(now);toast('石甲护体 · 五秒内可抵挡三次攻击')}
+ if(type==='flame'){
+  flameEffect(now);
+  const fx=-Math.sin(hero.rotation.y), fz=-Math.cos(hero.rotation.y);
+  let hit=-1, nearest=6.5;
+  for(let i=0;i<crates.length;i++){
+    const dx=crates[i].position.x-hero.position.x;
+    const dz=crates[i].position.z-hero.position.z;
+    const ahead=dx*fx+dz*fz;
+    const cross=Math.abs(dx*fz-dz*fx);
+    if(ahead>.2 && ahead<nearest && cross<.78){hit=i;nearest=ahead}
+  }
+  const moved=hit>=0 && shoveCrate(hit,fx*1.36,fz*1.36);
+  if(!doorOpen) toast(moved?'暗焰冲击推动了前方木箱！':'暗焰冲击！面向箱子再施放。');
+ }
+ if(type==='slam'){
+  let count=0;
+  for(let i=0;i<crates.length;i++){
+    const dx=crates[i].position.x-hero.position.x;
+    const dz=crates[i].position.z-hero.position.z;
+    const distance=Math.hypot(dx,dz);
+    if(distance>.01 && distance<4.5 && shoveCrate(i,dx*1.22/distance,dz*1.22/distance)) count++;
+  }
+  slamEffect(now);
+  if(!doorOpen) toast(count?'震地重击！震开附近木箱。':'震地重击！靠近木箱试试。');
+ }
+}
+for(const type of ['flame','shield','slam'])document.getElementById(type+'Skill').addEventListener('click',()=>useSkill(type));
+function resetRuins(){
+  doorOpen=false;
+  door.position.y=1.63;
+  crates.forEach((crate,index)=>{
+    crate.position.set(pads[index].x,0,-2+index*.25);
+    if(solved[index]){
+      rings[index].geometry.dispose();
+      rings[index].geometry=new THREE.TorusGeometry(.78,.053,7,32);
+    }
+  });
+  solved.fill(false);
+}
+
+function enterRuins(){
+  hero.position.set(0,0,5.5);
+  inspect.hidden=false;
+  skills.style.display='';
+  progress.textContent='能量机关：0 / 3';
+  tip.textContent='救出驿风。把木箱推到同色符文台，橙箱需绕过石柱。';
+}
+
+function updateRuins(dt){
+  if(doorOpen&&door.position.y<4.6)door.position.y+=dt*2.6;
+  if(!finished&&doorOpen&&hero.position.z<-13.65&&Math.abs(hero.position.x)<1.8) completeLevel(stage);
+}
+
+function updateLightRoom(dt,now){
+  updateMirrorButton();
+  animateBeam(now);
+  crystal.rotation.y+=dt*.48;
+  if(lightSolved) lightDoor.position.y=Math.min(4,lightDoor.position.y+2.6*dt);
+  if(!finished&&lightSolved&&lightDoor.position.y>3.3&&hero.position.z<-41.05&&
+     Math.abs(hero.position.x-lightExit.x)<.94) completeLevel(stage);
+}
+
+const levels={
+  1:{enter:enterRuins,exit:resetRuins,updateDuringStory:true,move:moveHero,speed:3.85,update:updateRuins,chapter:0,next:2},
+  2:{enter:enterLightRoom,exit:resetLightRoom,updateDuringStory:true,room:chamber,move:moveInChamber,speed:4.6,update:updateLightRoom,chapter:1,next:3},
+  3:{enter:enterThirdRoom,exit:resetThirdRoom,room:gravityRoom,move:moveInGravityRoom,speed:4.6,update:updateGravityRoom,
+     chapter:2,next:4,chapterNote:()=>` 这段路上找到 ${fragmentCount} / 3 枚星屑。`},
+  4:{enter:enterGuardRoom,room:guardRoom,move:moveInGuardRoom,speed:5.15,update:updateGuardRoom,chapter:4,next:5,
+     victory:['第四关通过','守卫已退，驿风仍在遗迹深处。','再战守卫','前往机械深渊'],
+     failure:['守卫暂时占了上风','留意橙色预警，侧移避开，或者用石甲挡住冲撞。','重试第四关']},
+  5:{enter:enterMechanicalRoom,exit:releaseDepthRoom,move:moveMechanical,speed:4.6,update:updateMechanicalRoom,chapter:5,next:6,
+     failure:['落入机械深渊','等桥板停止移动，再沿亮着金边的桥板前进。','重试第五关']},
+  6:{enter:enterCrystalRoom,exit:releaseDepthRoom,move:moveCrystal,speed:4.4,update:updateCrystalRoom,chapter:6,next:7,
+     failure:['幻路塌落了','青光刻痕标记坚实石路。橙色波纹下是空的。','重试第六关']},
+  7:{enter:enterNestRoom,exit:releaseDepthRoom,move:moveNest,speed:5.15,update:updateNestRoom,chapter:7,
+     victory:['第七关通过','你已穿过深渊兽巢。第八关待续，驿风在遗迹深处等你。','再战兽巢'],
+     failure:['兽巢的守卫挡住了去路','躲开直线冲撞和圆形震波。用石甲护身，也可以用震地打断蓄力。','重试第七关']}
+};
+
+function requestedLevel(){
+  const url=new URL(location.href);
+  const localLevel=url.protocol==='file:'&&/^#level=\d+$/.test(url.hash)&&url.hash.slice(7);
+  const value=localLevel||url.searchParams.get('level');
+  return Object.hasOwn(levels,value)?Number(value):1;
+}
+
+function syncLevelUrl(level){
+  const url=new URL(location.href);
+  if(requestedLevel()===level) return;
+  if(url.protocol==='file:'){
+    // Local files can change their fragment without navigating away from the game.
+    url.hash='level='+level;
+  }else{
+    url.searchParams.set('level',level);
+  }
+  history.replaceState(history.state,'',url.href);
+}
+
+function resetInput(){
+  if(joyId!==null&&joy.hasPointerCapture(joyId)) joy.releasePointerCapture(joyId);
+  for(const id of orbitPointers.keys()){
+    if(viewSurface.hasPointerCapture(id)) viewSurface.releasePointerCapture(id);
+  }
+  endJoy();
+  orbitPointers.clear();
+  for(const key of Object.keys(keys)) keys[key]=false;
+}
+
+function exitLevel(level){
+  const previous=levels[level];
+  if(previous?.room) previous.room.visible=false;
+  previous?.exit?.();
+  resetInput();
+  clearTimeout(toastTimer);
+  notice.style.display='none';
+  afterStory=null;
+  story.hidden=encounter.hidden=depthAction.hidden=true;
+  turnMirror.hidden=orbitTools.hidden=pairPicker.hidden=inspect.hidden=true;
+  aimMarker.visible=false;
+  skills.style.display='none';
+  if(document.activeElement!==document.body) document.activeElement?.blur();
+  updateEffects(Infinity);
+  for(const animation of shakeAnimations) animation.cancel();
+  shakeAnimations.clear();
+  shieldUntil=wardCharges=0;
+  for(const type of Object.keys(cd)) cd[type]=0;
+  mixer?.stopAllAction();
+  oneShot=activeAction=null;
+}
+
+function enterLevel(level){
+  if(!Number.isInteger(level)||!Object.hasOwn(levels,level)){
+    console.debug('Ignored unregistered level:',level);
+    return;
+  }
+  const restarting=stage===level;
+  exitLevel(stage);
+  stage=level;
+  finished=false;
+  inspectSide=false;
+  inspect.textContent='看角色';
+  inspect.setAttribute('aria-pressed','false');
+  hero.rotation.y=0;
+  if(level!==4&&level!==7&&heroHp!==hpMax){heroHp=hpMax;refreshHealth();}
+  levels[level].enter(restarting);
+  resetOrbit();
+  orbitTools.hidden=false;
+  updateCamera();
+  playMotion('Idle');
+  syncLevelUrl(level);
+}
+
+function restartCurrentLevel(){
+  enterLevel(stage);
+}
+
+function completeLevel(level){
+  if(level!==stage||finished) return;
+  const {chapter,next,chapterNote,victory}=levels[level];
+  finished=true;
+  if(victory){
+    resetInput();
+    if(chapter!==undefined&&next===undefined)playChapter(chapter,()=>guardPanel(...victory));
+    else guardPanel(...victory);
+  }else{
+    playChapter(chapter,()=>enterLevel(next));
+    if(chapterNote) storyText.textContent+=chapterNote();
+  }
+}
+
+function failLevel(level){
+  const failure=levels[level]?.failure;
+  if(level!==stage||finished||!failure) return;
+  finished=true;
+  resetInput();
+  guardPanel(...failure);
+}
+
+const orbitLook=new THREE.Vector3();
+function updateCamera(){
+  const view=cameraViews[stage];
+  const player=hero.position;
+  if(view.center){
+    const closeup=THREE.MathUtils.clamp((view.distance-.5-orbitDistance)/(view.distance-.5-view.min),0,.88);
+    orbitLook.copy(view.center).lerp(player,closeup);
+    orbitLook.y=THREE.MathUtils.lerp(view.center.y,view.focusHeight??1.15,closeup);
+  }else{
+    orbitLook.set(player.x,inspectSide?1.82:view.height,player.z);
+  }
+  const planar=Math.cos(orbitPitch)*orbitDistance;
+  camera.position.set(orbitLook.x+Math.sin(orbitYaw)*planar,
+    orbitLook.y+Math.sin(orbitPitch)*orbitDistance,orbitLook.z+Math.cos(orbitYaw)*planar);
+  camera.lookAt(orbitLook);
+}
+let clock=new THREE.Clock();function animate(){requestAnimationFrame(animate);let now=performance.now();updateEffects(now);updateMusic();
+status.textContent=now<shieldUntil?'石甲 · 剩余 '+wardCharges+' 次 · '+Math.ceil((shieldUntil-now)/1000)+' 秒':'';
+for(const type of ['flame','shield','slam']){let b=document.getElementById(type+'Skill');let remain=Math.ceil((cd[type]-now)/1000);b.disabled=remain>0;b.style.filter=remain>0?'grayscale(.6)':'none';}
+let dt=Math.min(clock.getDelta(),.05);let x=dx+(keys.d||keys.arrowright?1:0)-(keys.a||keys.arrowleft?1:0),z=dy+(keys.s||keys.arrowdown?1:0)-(keys.w||keys.arrowup?1:0);let l=Math.hypot(x,z);if(l>.1&&!finished&&!afterStory){x/=Math.max(l,1);z/=Math.max(l,1);
+ const cos=Math.cos(orbitYaw),sin=Math.sin(orbitYaw);
+ [x,z]=[x*cos+z*sin,-x*sin+z*cos];
+ hero.rotation.y=Math.atan2(-x,-z);
+ const {move,speed}=levels[stage];
+ const movement=move(x*speed*dt,z*speed*dt);
+ if(movement===2) cue('push');
+ playMotion(movement===2?'Push':movement===1?'Walk':'Idle');
+}else{playMotion('Idle')}
+if(mixer)mixer.update(dt);
+const level=levels[stage];
+if(!finished||(afterStory&&level.updateDuringStory)) level.update(dt,now);
+updateCamera();
+renderer.render(scene,camera)}
+function startGame(){
+  const url=new URL(location.href);
+  const value=url.searchParams.get('level');
+  if(value!==null&&!Object.hasOwn(levels,value)){
+    url.searchParams.delete('level');
+    if(url.protocol==='file:'){
+      // File history entries only allow fragment edits without navigation.
+      location.replace(url.href);
+      return;
+    }
+    history.replaceState(history.state,'',url.href);
+  }
+  enterLevel(requestedLevel());
+  animate();
+}
+startGame();
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);if(stage!==null) updateCamera()})
+</script></body></html>
